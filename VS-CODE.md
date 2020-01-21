@@ -49,17 +49,32 @@ Extension for minifying your code. It offers a ton of customization settings and
 
 
 Commands Used:
+
 echo "# javascript-client" >> README.md
+
 git init
+
 git add README.md
+
 git commit -m "first commit"
+
 git remote add origin https://github.com/AryanSinghalGit/javascript-client.git
+
 git push -u origin master
+
 git branch
+
 git checkout -b develop
+
 git push origin develop
+
 git checkout -b feature/39512
+
 gedit VS-CODE.md
+
 git add VS-CODE.md 
+
 git status
+
 git push origin feature/39512
+

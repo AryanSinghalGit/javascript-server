@@ -7,10 +7,12 @@ Features:
 **3. Available for macOS, Linux, and Windows**
 
 **4. Make it your own**
-  Customize every feature to your liking and install any number of third-party extensions
+
+     Customize every feature to your liking and install any number of third-party extensions
 
 **5. Built with love for the Web**
-	 VS Code includes enriched built-in support for Node.js development with JavaScript and TypeScript, powered by the same underlying technologies that drive Visual Studio
+
+     VS Code includes enriched built-in support for Node.js development with JavaScript and TypeScript, powered by the   same 	   underlying technologies that drive Visual Studio
 
 ---
 
@@ -18,6 +20,7 @@ Plugins:
 ========
 
 **1. Quokka**
+
 Quokka is a debugging tool that gives live feedback on the code you are writing. It shows you previews of the results of functions and calculated values for variables. The extension is easy to configure and works out of the box with JSX or TypeScript projects.
 
 **2. Faker**

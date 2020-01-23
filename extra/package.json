@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pattern:diamond":"extra/patterns/diamond.js",
-    "pattern:equilateral":"extra/patterns/equilateral.js"
+    "pattern:diamond":" node patterns/diamond.js",
+    "pattern:equilateral":"node patterns/equilateral.js"
     
   },
   "author": "",

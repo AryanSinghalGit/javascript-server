@@ -1,0 +1,14 @@
+{
+  "name": "extra",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pattern:diamond":"extra/patterns/diamond.js",
+    "pattern:equilateral":"extra/patterns/equilateral.js"
+    
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -4,21 +4,21 @@ let user=[
         reviewerEmail: 'reviewer1@successive.tech'
     },
     {
-        AryanSinghal: 'aryan.singhal@successive.tech',
-        RahulSadhukhan: 'rahul.sadhukhan@successive.tech'
+        traineeEmail: 'aryan.singhal@successive.tech',
+        reviewerEmail: 'rahul.sadhukhan@successive.tech'
     },
     {
-        traineeEmail2: 'trainee1@gmail.com',
-        reviewerEmail2: 'reviewer1@hotmail.com'
+        traineeEmail: 'trainee1@gmail.com',
+        reviewerEmail: 'reviewer1@hotmail.com'
     },
     {
-        Aman: 'Aman@successive.tech',
-        VinayChaudhary: 'vinay.chaudhary@successive.tech'
+        traineeEmail: 'Aman@successive.tech',
+        reviewerEmail: 'vinay.chaudhary@successive.tech'
     }
 ];
 let regex=/[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/gmi;
 let email;
-let temp=[];
+//let temp=[];
 let true_arr=[];
 let false_arr=[];
 validateUser(user);
@@ -26,12 +26,12 @@ function validateEmail(email)
 {
     if(email.match(regex)) 
     {
-       // console.log("true");
+                                                                 // console.log("true");
         return true;
     }
     else
     {
-       // console.log("false");
+                                                                 // console.log("false");
         return false; 
     }
 
@@ -42,31 +42,34 @@ function validateUser(user)
 {
    user.forEach(function(value,index)
     { 
-        const myobj=Object.values(user[index]);
-        if(validateEmail(myobj[0])){
-            temp=Object.keys(user[index]);
-            true_arr.push(temp[0]);
+        
+        const {traineeEmail,reviewerEmail}=user[index];
+         // console.log(traineeEmail);
+        //console.log(reviewerEmail);
+        
+        if(validateEmail(traineeEmail)){
+            true_arr.push(traineeEmail);
         }
         else
         {
-            temp=Object.keys(user[index]);
-            false_arr.push(temp[0]);  
+            false_arr.push(traineeEmail);  
         }  
-        if(validateEmail(myobj[1])){
-            temp=Object.keys(user[index]);
-            true_arr.push(temp[1]);
+        if(validateEmail(reviewerEmail)){
+            
+            true_arr.push(reviewerEmail);
         }
         else
         {
-            temp=Object.keys(user[index]);
-            false_arr.push(temp[1]);  
+            false_arr.push(reviewerEmail);  
         }
            
     });
+
     console.log("Valid Users are:\n");
     true_arr.forEach(element => console.log(element));
     console.log("\nNo. of Valid Users: ",true_arr.length);
     console.log("-----------------------------------------------------")
+
     console.log("\nInvalid Users are:\n");
     false_arr.forEach(element => console.log(element));
     console.log("\nNo. of Invalid Users: ",false_arr.length);

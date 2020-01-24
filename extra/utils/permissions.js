@@ -16,7 +16,7 @@ console.log(hasPermission("getUsers","trainee","read"));
 function hasPermission(moduleName,role,permissionType)   
 {
     let data=permissions[moduleName];
-    let tmp;
+    let tmp=false;
     if(data[permissionType]===undefined)
         return false;
 
@@ -24,9 +24,7 @@ function hasPermission(moduleName,role,permissionType)
         if(element==role)
         {
            tmp=true;
-        }
-        else
-           tmp=false;   
+        } 
         
     });
     return tmp;

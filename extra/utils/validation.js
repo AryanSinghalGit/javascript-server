@@ -16,14 +16,10 @@ let user=[
         reviewerEmail: 'vinay.chaudhary@successive.tech'
     }
 ];
-let regex=/[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/gmi;
-let email;
-
-let validEmails=[];
-let invalidEmails=[];
 
 function validateEmail(email)
-{
+{ 
+    let regex=/[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/gmi;
     if(email.match(regex)) 
     {
                                                                  // console.log("true");
@@ -40,6 +36,8 @@ function validateEmail(email)
 
 function validateUser(user)
 {
+    let validEmails=[];
+    let invalidEmails=[];
    user.forEach(function(value,index)
     { 
         

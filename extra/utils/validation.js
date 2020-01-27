@@ -74,13 +74,3 @@ function validateUser(user)
 }
 
 validateUser(user);
-
-
-
-
-
-
-
-
-
-

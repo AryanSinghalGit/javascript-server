@@ -1,8 +1,3 @@
-
-let email;
-
-
-
 import {validateEmail} from './helper.js';
 
 export default function validateUser(user)

@@ -1,45 +1,14 @@
-let user=[
-    {
-        traineeEmail: 'trainee1@successive.tech',
-        reviewerEmail: 'reviewer1@successive.tech'
-    },
-    {
-        traineeEmail: 'aryan.singhal@successive.tech',
-        reviewerEmail: 'rahul.sadhukhan@successive.tech'
-    },
-    {
-        traineeEmail: 'trainee1@gmail.com',
-        reviewerEmail: 'reviewer1@hotmail.com'
-    },
-    {
-        traineeEmail: 'Aman$2@successive.tech',
-        reviewerEmail: 'vinay.chaudhary@successive.tech'
-    }
-];
-let regex=/[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/gmi;
+
 let email;
 
-let validEmails=[];
-let invalidEmails=[];
 
-function validateEmail(email)
+
+import {validateEmail} from './helper.js';
+
+export default function validateUser(user)
 {
-    if(email.match(regex)) 
-    {
-                                                                 // console.log("true");
-        return true;
-    }
-    else
-    {
-                                                                 // console.log("false");
-        return false; 
-    }
-
-}
-
-
-function validateUser(user)
-{
+    let validEmails=[];
+    let invalidEmails=[];
    user.forEach(function(value,index)
     { 
         
@@ -75,7 +44,7 @@ function validateUser(user)
     console.log("\nNo. of Invalid Users: ",invalidEmails.length);
 }
 
-validateUser(user);
+//validateUser(user);
 
 
 

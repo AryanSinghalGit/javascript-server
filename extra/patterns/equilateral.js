@@ -1,24 +1,22 @@
-n=process.argv[2]
-equilateral(n)
 function equilateral(n)
 {
     
  
 for(let i=0;i<n;i++)
 {
-    let str=""
+    let str="";
     for(let k=0;k<n-i-1;k++)
     {
-        str=str+" "
+        str=str+" ";
     }
     for(let j=0;j<=i;j++)
     {
         
-        str=str+"* "
+        str=str+"* ";
     }
-    console.log(str)
+    console.log(str);
      
 }
 
 }
-
+export default equilateral;

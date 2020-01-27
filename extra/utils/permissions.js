@@ -12,9 +12,10 @@ let permissions={
         delete: ['admin'],
     }
     };
-console.log(hasPermission("getUsers","trainee","read"));
+
 function hasPermission(moduleName,role,permissionType)   
 {
+    console.log("hasPermission",moduleName,role,permissionType);
     let data=permissions[moduleName];
     let tmp=false;
     if(data[permissionType]===undefined)
@@ -28,7 +29,5 @@ function hasPermission(moduleName,role,permissionType)
         
     });
     return tmp;
-
-
-
 }
+hasPermission("getUsers","trainee","read");

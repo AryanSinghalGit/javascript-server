@@ -12,16 +12,16 @@ let user=[
         reviewerEmail: 'reviewer1@hotmail.com'
     },
     {
-        traineeEmail: 'Aman@successive.tech',
+        traineeEmail: 'Aman$2@successive.tech',
         reviewerEmail: 'vinay.chaudhary@successive.tech'
     }
 ];
 let regex=/[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/gmi;
 let email;
-//let temp=[];
-let true_arr=[];
-let false_arr=[];
-validateUser(user);
+
+let validEmails=[];
+let invalidEmails=[];
+
 function validateEmail(email)
 {
     if(email.match(regex)) 
@@ -48,35 +48,34 @@ function validateUser(user)
         //console.log(reviewerEmail);
         
         if(validateEmail(traineeEmail)){
-            true_arr.push(traineeEmail);
+            validEmails.push(traineeEmail);
         }
         else
         {
-            false_arr.push(traineeEmail);  
+            invalidEmails.push(traineeEmail);  
         }  
         if(validateEmail(reviewerEmail)){
             
-            true_arr.push(reviewerEmail);
+            validEmails.push(reviewerEmail);
         }
         else
         {
-            false_arr.push(reviewerEmail);  
+            invalidEmails.push(reviewerEmail);  
         }
            
     });
 
     console.log("Valid Users are:\n");
-    true_arr.forEach(element => console.log(element));
-    console.log("\nNo. of Valid Users: ",true_arr.length);
+    validEmails.forEach(element => console.log(element));
+    console.log("\nNo. of Valid Users: ",validEmails.length);
     console.log("-----------------------------------------------------")
 
     console.log("\nInvalid Users are:\n");
-    false_arr.forEach(element => console.log(element));
-    console.log("\nNo. of Invalid Users: ",false_arr.length);
-        
-
+    invalidEmails.forEach(element => console.log(element));
+    console.log("\nNo. of Invalid Users: ",invalidEmails.length);
 }
 
+validateUser(user);
 
 
 
@@ -86,8 +85,4 @@ function validateUser(user)
 
 
 
-// let boolean = user.map(value,index) => { 
-//    const myobj=Object.values(user[index])
-//    if(myobj[0].match(regex))
-//      // console.log();
-// }; ///[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/gmi
+

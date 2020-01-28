@@ -1,8 +1,3 @@
-
-let email;
-
-
-
 import {validateEmail} from './helper.js';
 
 export default function validateUser(user)
@@ -43,15 +38,3 @@ export default function validateUser(user)
     invalidEmails.forEach(element => console.log(element));
     console.log("\nNo. of Invalid Users: ",invalidEmails.length);
 }
-
-//validateUser(user);
-
-
-
-
-
-
-
-
-
-

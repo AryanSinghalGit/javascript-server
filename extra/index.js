@@ -4,8 +4,6 @@ import {hasPermission, validateUser} from './utils/index.js';
 diamond(10);
 equilateral(8);
 hasPermission("getUsers","trainer","write");
-
-
 const user=[
     {
         traineeEmail: 'trainee1@successive.tech',
@@ -25,7 +23,3 @@ const user=[
     }
 ];
 validateUser(user);
-
-
-
-

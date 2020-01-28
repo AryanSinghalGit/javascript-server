@@ -1,6 +1,6 @@
 import {validateEmail} from './helper.js';
 
-export default function validateUser(user)
+function validateUser(user)
 {
     let validEmails=[];
     let invalidEmails=[];
@@ -38,3 +38,4 @@ export default function validateUser(user)
     invalidEmails.forEach(element => console.log(element));
     console.log("\nNo. of Invalid Users: ",invalidEmails.length);
 }
+export default validateUser;

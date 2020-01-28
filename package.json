@@ -17,7 +17,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm test && npm run lint ",
-      "pre-push": "npm test && npm run lint",
+      "pre-push": "npm test && npm run lint "
     },
     "author": "",
     "license": "ISC",

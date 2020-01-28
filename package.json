@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "pattern:diamond": " node extra/patterns/diamond.js",
     "pattern:equilateral": "node extra/patterns/equilateral.js",
-    "file:index":" extra/index.js"
+    "file:index":"npx babel-node extra"
   },
   "type": "module",
   "author": "",

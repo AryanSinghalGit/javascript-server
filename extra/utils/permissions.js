@@ -1,5 +1,4 @@
 import {permissions} from '../constant.js';
-
 export default function hasPermission(moduleName,role,permissionType)   
 {
     console.log("hasPermission",moduleName,role,permissionType);

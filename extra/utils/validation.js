@@ -5,11 +5,7 @@ function validateUser(user)
     let invalidEmails=[];
    user.forEach(function(value,index)
     { 
-        
         const {traineeEmail,reviewerEmail}=user[index];
-         // console.log(traineeEmail);
-        //console.log(reviewerEmail);
-        
         if(validateEmail(traineeEmail)){
             validEmails.push(traineeEmail);
         }

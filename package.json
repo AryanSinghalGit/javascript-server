@@ -12,13 +12,10 @@
     "start:extraTs": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
     "nodemon": "nodemon ./dist/index.js",
     "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
-    "lint:fix": "npm run lint --fix"
+    "lint:fix": "npm run lint --fix",
+    "pre-commit": "npm test && npm run lint ",
+    "pre-push": "npm test && npm run lint "
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test && npm run lint ",
-      "pre-push": "npm test && npm run lint "
-    },
     "author": "",
     "license": "ISC",
     "dependencies": {
@@ -39,4 +36,4 @@
       "tsc-watch": "^4.1.0",
       "typescript": "^3.7.5"
     }
-  }
+}

@@ -13,8 +13,6 @@ for(let i=0;i<n;i++)
         str=str+"* ";
     }
     console.log(str);
-     
 }
-
 }
 export default equilateral;

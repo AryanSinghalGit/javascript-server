@@ -1,4 +1,3 @@
-
 export function validateEmail(email)
 {
     const regex=/[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/gmi;

@@ -1,5 +1,4 @@
 import {validateEmail} from './helper.js';
-
 function validateUser(user)
 {
     let validEmails=[];
@@ -28,7 +27,6 @@ function validateUser(user)
         }
            
     });
-
     console.log("Valid Users are:\n");
     validEmails.forEach(element => console.log(element));
     console.log("\nNo. of Valid Users: ",validEmails.length);

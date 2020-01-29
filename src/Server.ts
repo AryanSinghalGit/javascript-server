@@ -1,14 +1,15 @@
 import * as express from 'express';
 export class Server {
-    private app;
+    private app: express.Express;
     constructor(protected config) {
         this.app = express();
     }
-    public bootstrap = () => {
+    public bootstrap = (): Server => {
         this.setupRoutes();
+        return this;
     }
-    public run = () => {
-        const {app , config: { Port } } = this;
+    public run = (): Server => {
+        const {app , config: { Port } }: Server = this;
 
         app.listen(Port, (err) => {
             if (err) {
@@ -20,8 +21,8 @@ export class Server {
         });
         return this;
     }
-    public setupRoutes = () => {
-        const { app } = this;
+    public setupRoutes = (): void => {
+        const { app }: Server = this;
         this.app.get('/health-check', (req, res) => res.send('I am OK'));
     }
 }

@@ -1,0 +1,20 @@
+{
+  "name": "extra",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pattern:diamond": " node extra/patterns/diamond.js",
+    "pattern:equilateral": "node extra/patterns/equilateral.js",
+    "start:extra":"npx babel-node extra"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "7.8.3",
+    "@babel/node": "7.8.3",
+    "@babel/preset-env": "7.8.3"
+  }
+}

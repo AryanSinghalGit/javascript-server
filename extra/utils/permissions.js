@@ -1,21 +1,9 @@
-let permissions={
-    'getUsers': {
-    all: ['head-trainer'],
-    read : ['trainee', 'trainer'],
-    write : ['trainer'],
-    delete: [],
-    },
-    'myUsers':{
-        all: ['hod'],
-        read : ['student', 'teacher'],
-        write : ['teacher'],
-        delete: ['admin'],
-    }
-    };
-
-function hasPermission(moduleName,role,permissionType)   
+import {permissions} from '../constant.js';
+export default function hasPermission(moduleName,role,permissionType)   
 {
     console.log("hasPermission",moduleName,role,permissionType);
+    if(permissions[moduleName]===undefined)
+      return false;
     let data=permissions[moduleName];
     let tmp=false;
     if(data[permissionType]===undefined)
@@ -30,4 +18,3 @@ function hasPermission(moduleName,role,permissionType)
     });
     return tmp;
 }
-hasPermission("getUsers","trainee","read");

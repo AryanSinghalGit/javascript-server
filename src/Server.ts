@@ -1,7 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import notFoundRoute from './libs/routes/notFoundRoute';
-import errorHandler from './libs/routes/errorHandler';
+import { notFoundRoute , errorHandler } from './libs/routes';
 export class Server {
     private app: express.Express;
     constructor(protected config) {

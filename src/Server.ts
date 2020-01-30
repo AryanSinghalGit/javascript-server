@@ -23,6 +23,6 @@ export class Server {
     }
     public setupRoutes = (): void => {
         const { app }: Server = this;
-        this.app.get('/health-check', (req, res) => res.send('I am OK'));
+        this.app.get('/health-check', (req: express.Request, res: express.Response) => res.send('I am OK'));
     }
 }

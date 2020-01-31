@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { notFoundRoute , errorHandler } from './libs/routes';
+import { default as mainRouter } from './router';
 export class Server {
     private app: express.Express;
     constructor(protected config) {
@@ -31,6 +32,7 @@ export class Server {
     public setupRoutes = (): void => {
         const { app }: Server = this;
         app.get('/health-check', (req: express.Request, res: express.Response) => res.send('I am OK'));
+        app.use('/api', mainRouter);
         app.use(notFoundRoute);
         app.use(errorHandler);
     }

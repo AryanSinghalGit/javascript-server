@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import Controller from './Controller';
-const traineeRouter = Router();
+const traineeRouter: Router = Router();
 traineeRouter.route('/')
     .get(Controller.create)
     .post(Controller.list);

@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 class Controller {
     static instance: Controller;
     static getInstance = () => {
@@ -9,7 +10,7 @@ class Controller {
             return Controller.instance;
         }
     }
-    create = (req, res) => {
+    create = (req: Request, res: Response) => {
         console.log('----------Create Trainee----------');
         res.send({
             status: 'ok',
@@ -21,7 +22,7 @@ class Controller {
             }
         });
     };
-    list = (req, res) => {
+    list = (req: Request, res: Response) => {
         console.log('----------Trainee List----------');
         res.send({
             status: 'ok',
@@ -44,7 +45,7 @@ class Controller {
         }
         );
     };
-    update = (req, res) => {
+    update = (req: Request, res: Response) => {
         console.log('----------Update Trainee----------');
         res.send({
             status: 'ok',
@@ -56,7 +57,7 @@ class Controller {
             }
         });
     };
-    delete = (req, res) => {
+    delete = (req: Request, res: Response) => {
         console.log('----------Delete Trainee----------');
         res.send(
             {

@@ -34,9 +34,9 @@ const validation = {
             regex: /[0-9]+/gmi ,
             in: ['query'],
             errorMessage: 'Skip is invalid',
-            custom: (req, res, next): void => {
-                if ( req['body']['limit'] === undefined ) {
-                    req['body']['limit'] = '0';
+            custom: (reqMethod, req, res, next): void => {
+                if ( req[reqMethod]['limit'] === undefined ) {
+                    req[reqMethod]['limit'] = '0';
                 }
             }
         },
@@ -48,9 +48,9 @@ const validation = {
             regex: /[0-9]+/gmi ,
             in: ['query'],
             errorMessage: 'Limit is invalid',
-            custom: (req, res, next): void => {
-                if ( req['body']['limit'] === undefined ) {
-                    req['body']['limit'] = '10';
+            custom: (reqMethod, req, res, next): void => {
+                if ( req[reqMethod]['limit'] === undefined ) {
+                    req[reqMethod]['limit'] = '10';
                 }
             }
         }
@@ -69,10 +69,9 @@ const validation = {
             in: ['body'],
             required: true,
             isObject: true,
-            custom: (req, res, next): void => {
-                if (typeof req['body'] !== 'object' || req['body'].constructor !== Object ) {
-                    next({ error: 'Error Occured', message: 'Not an Object'
-                });
+            custom: (reqMethod, req, res, next): void => {
+                if (typeof req[reqMethod] !== 'object' || req[reqMethod].constructor !== Object ) {
+                    next({ error: 'Error Occured', message: 'Not an Object'});
                 }
             }
         }

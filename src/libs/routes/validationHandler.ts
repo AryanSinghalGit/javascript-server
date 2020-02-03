@@ -4,9 +4,10 @@ export default (config) => {
     console.log('The config is ', config);
     console.log(req.body);
     Object.keys(config).forEach(key => {
-        console.log(`----${ key }----`);
-        const { in: any } = config[key];
-        const keyValue = req[ in ][key];
+        console.log(`---------${ key }---------`);
+        const { in: reqType } = config[key];
+        reqType.forEach(reqMethod => {
+        const keyValue = req[reqMethod][key];
         if ( config[key].required === true ) {
             if ( keyValue === undefined ) {
                 next({ error: 'Error Occured', message: `${ config[key].errorMessage }` });
@@ -20,8 +21,8 @@ export default (config) => {
             }
         }
         if (config[key] !== undefined )
-            config[key].custom(req, res, next );
-
+            config[key].custom(reqMethod, req, res, next );
+        });
     });
     } ;
 };

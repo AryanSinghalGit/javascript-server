@@ -8,8 +8,8 @@ export class Server {
         this.app = express();
     }
     public bootstrap = (): Server => {
-        this.setupRoutes();
         this.initBodyParser();
+        this.setupRoutes();
         return this;
     }
     public run = (): Server => {

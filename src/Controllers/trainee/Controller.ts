@@ -46,8 +46,8 @@ class Controller {
         );
     };
     update = (req: Request, res: Response) => {
-        console.log('----------Update Trainee----------');
-        res.send({
+        console.log('----------Update Trainee----------', req.params.id);
+            res.send({
             status: 'ok',
             message: 'Trainee Data successfully Updated',
             data: {

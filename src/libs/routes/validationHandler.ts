@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 export default (config) => {
     return (req: Request, res: Response, next: NextFunction) => {
     console.log('---------Validation Handler---------');
-    console.log('The config is ', config);
+    console.log(config);
     console.log(req.body);
     Object.keys(config).forEach(key => {
         console.log(`---------${ key }---------`);

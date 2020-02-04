@@ -1,10 +1,11 @@
 import * as jwt from 'jsonwebtoken';
 import { default as config } from '../../config/configuration';
 import hasPermission from '../hasPermission';
-export default (module, permissionType) => (req, res, next) => {
+import { Request, Response, NextFunction } from 'express';
+export default (module, permissionType) => (req: Request, res: Response, next: NextFunction) => {
     console.log('------------AUTHMIDDLEWARE------------', module, permissionType);
     try {
-        const token = req.body.Authorization;
+        const token: string = req.body.Authorization;
         const { Key } = config;
         const decodedUser = jwt.verify(token, Key);
         if (!decodedUser) {
@@ -14,7 +15,7 @@ export default (module, permissionType) => (req, res, next) => {
                 message: 'Unauthorized Access'
             });
         }
-        const role = decodedUser.role;
+        const role: string = decodedUser.role;
         if (!hasPermission(module, role, permissionType)) {
             return next({
                 staus: 403,

@@ -35,8 +35,8 @@ const validation = {
             in: ['query'],
             errorMessage: 'Skip is invalid',
             custom: (reqMethod, req, res, next): void => {
-                if ( req[reqMethod]['skip'] === undefined ) {
-                    req[reqMethod]['skip'] = '0';
+                if ( req[reqMethod].skip === undefined ) {
+                    req[reqMethod].skip = '0';
                 }
             }
         },
@@ -49,8 +49,8 @@ const validation = {
             in: ['query'],
             errorMessage: 'Limit is invalid',
             custom: (reqMethod, req, res, next): void => {
-                if ( req[reqMethod]['limit'] === undefined ) {
-                    req[reqMethod]['limit'] = '10';
+                if ( req[reqMethod].limit === undefined ) {
+                    req[reqMethod].limit = '10';
                 }
             }
         }

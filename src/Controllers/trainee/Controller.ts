@@ -12,6 +12,7 @@ class Controller {
     }
     create = (req: Request, res: Response) => {
         console.log('----------Create Trainee----------');
+        console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
         res.send({
             status: 'ok',
             message: 'Trainee added successfully',
@@ -46,7 +47,7 @@ class Controller {
         );
     };
     update = (req: Request, res: Response) => {
-        console.log('----------Update Trainee----------', req.params.id);
+        console.log('----------Update Trainee----------');
             res.send({
             status: 'ok',
             message: 'Trainee Data successfully Updated',

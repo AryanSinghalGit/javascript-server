@@ -3,14 +3,14 @@ const validation = {
         id: {
             required: true,
             string: true,
-            regex: /[\w]+/gmi,
+            regex: /[\w]+/,
             in: ['body'],
             errorMessage: 'Id is required'
         },
         name:
         {
             required: true,
-            regex: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/gmi,
+            regex: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/,
             in: ['body'],
             errorMessage: 'Name is required',
         }
@@ -31,12 +31,14 @@ const validation = {
             required: false,
             default: 0,
             number: true,
-            regex: /[0-9]+/gmi ,
+            regex: /[0-9]+/,
             in: ['query'],
             errorMessage: 'Skip is invalid',
             custom: (reqMethod, req, res, next): void => {
-                if ( req[reqMethod]['limit'] === undefined ) {
-                    req[reqMethod]['limit'] = '0';
+                console.log('inside custom before if'); //
+                if ( req[reqMethod]['skip'] === undefined ) {
+                    console.log('inside custom'); //
+                    req[reqMethod]['skip'] = '0';
                 }
             }
         },
@@ -45,11 +47,13 @@ const validation = {
             required: false,
             default: 10,
             number: true,
-            regex: /[0-9]+/gmi ,
+            regex: /[0-9]+/,
             in: ['query'],
             errorMessage: 'Limit is invalid',
             custom: (reqMethod, req, res, next): void => {
+                console.log('inside custom before if'); //
                 if ( req[reqMethod]['limit'] === undefined ) {
+                    console.log('inside custom'); //
                     req[reqMethod]['limit'] = '10';
                 }
             }
@@ -61,17 +65,19 @@ const validation = {
         {
             required: true,
             string: true,
-            regex: /[\w]+/gmi,
-            in: ['body']
+            regex: /[\w]+/,
+            in: ['body'] ,
+            errorMessage: 'Id is required'
         },
         dataToUpdate:
         {
             in: ['body'],
             required: true,
             isObject: true,
+            errorMessage: 'Data is required',
             custom: (reqMethod, req, res, next): void => {
-                if (typeof req[reqMethod] !== 'object' || req[reqMethod].constructor !== Object ) {
-                    next({ error: 'Error Occured', message: 'Not an Object'});
+                if (typeof req[reqMethod] !== 'object' ) {
+                    return next({ error: 'Error Occured', message: 'Not an Object'});
                 }
             }
         }

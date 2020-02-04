@@ -5,7 +5,8 @@ import { Request, Response, NextFunction } from 'express';
 export default (module, permissionType) => (req: Request, res: Response, next: NextFunction) => {
     console.log('------------AUTHMIDDLEWARE------------', module, permissionType);
     try {
-        const token: string = req.body.Authorization;
+        const token: string = req.headers.authorization;
+        console.log(token);
         const { Key } = config;
         const decodedUser = jwt.verify(token, Key);
         if (!decodedUser) {

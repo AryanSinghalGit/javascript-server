@@ -3,15 +3,13 @@ const errorHandler = (err, req: express.Request, res: express.Response, next: ex
     let resp;
     if ( Array.isArray(err)) {
         resp = [];
-        err.forEach(element => {
             resp.push(
                 {
                 error: 'Error Occurred ',
-                message: element ,
+                data: err,
                 status: 500,
                 timestamp: new Date()
             });
-        });
     }
     else
         resp = {
@@ -20,7 +18,7 @@ const errorHandler = (err, req: express.Request, res: express.Response, next: ex
                 status: 500,
                 timestamp: new Date()
             };
-    res.send(resp);
+    res.status(500).send(resp);
     res.end('ok');
 };
 export default errorHandler;

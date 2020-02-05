@@ -4,7 +4,8 @@ config();
 const configuration: IConfig = {
     Port : process.env.PORT,
     NODE_ENV : process.env.NODE_ENV,
-    Key : process.env.SECRET_KEY
+    Key : process.env.SECRET_KEY,
+    MongoURL: process.env.MONGO_URL,
 };
 Object.freeze(configuration);
 export default configuration;

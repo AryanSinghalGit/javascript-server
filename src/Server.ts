@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { notFoundRoute , errorHandler } from './libs/routes';
 import { default as mainRouter } from './router';
+import Database from './libs/Database';
 export class Server {
     private app: express.Express;
     constructor(protected config) {
@@ -13,15 +14,23 @@ export class Server {
         return this;
     }
     public run = (): Server => {
-        const { app, config: { Port } }: Server = this;
-        app.listen(Port, (err) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(`Express app Successfully started on port : ${Port} `);
-            }
-        });
+        const { app, config: { Port, MongoURL} }: Server = this;
+        Database.open(MongoURL)
+        .then(() => {
+            app.listen(Port, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log(`Express app Successfully started on port : ${Port} `);
+                    Database.disconnect();
+                }
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        }
+        );
         return this;
     }
     public initBodyParser = () => {

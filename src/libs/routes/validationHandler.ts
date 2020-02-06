@@ -5,6 +5,8 @@ export default (config) => {
     console.log(config);
     console.log(req.body);
     const err = [];
+    const params = new Set();
+    const values = new Set();
     Object.keys(config).forEach(key => {
         console.log(`---------${ key }---------`);
         const { errorMessage } = config[key];
@@ -13,12 +15,28 @@ export default (config) => {
         const keyValue = req[reqMethod][key];
         if ( config[key].required === true ) {
             if ( keyValue === undefined || keyValue === null ) {
-                err.push(`${ errorMessage }`);
+                const obj = {
+                    location: `${ reqMethod}`,
+                    msg: `${ errorMessage }`,
+                    param: `${ key }` ,
+                    value: `${keyValue}`
+                };
+                obj[reqMethod] = obj.param;
+                delete obj.param;
+                err.push(obj);
             }
             if (config[key].regex !== undefined) {
                 const { regex } = config[key];
                 if (!regex.test(keyValue)) {
-                    err.push(`${ key } is invalid`);
+                    const obj = {
+                        location: `${ reqMethod}`,
+                        msg: `${ errorMessage }`,
+                        param: `${ key }` ,
+                        value: `${keyValue}`
+                    };
+                    obj[reqMethod] = obj.param;
+                    delete obj.param;
+                    err.push(obj);
                 }
             }
         }
@@ -27,20 +45,42 @@ export default (config) => {
                 console.log('inside regex');
                 const { regex } = config[key];
                 if (!regex.test(keyValue)) {
-                    err.push(`${ key } is invalid`);
+                    const obj = {
+                        location: `${ reqMethod}`,
+                        msg: `${ errorMessage }`,
+                        param: `${ key }` ,
+                        value: `${keyValue}`
+                    };
+                    obj[reqMethod] = obj.param;
+                    delete obj.param;
+                    err.push(obj);
                 }
             }
         }
         if (config[key].custom !== undefined )
             if (config[key].custom(reqMethod, req, res, next )) {
-                err.push(config[key].custom(reqMethod, req, res, next ));
+                    const obj = {
+                        location: `${ reqMethod}`,
+                        msg: `${ errorMessage }`,
+                        param: `${ key }` ,
+                        value: `${keyValue}`
+                    };
+                    obj[reqMethod] = obj.param;
+                    delete obj.param;
+                    err.push(obj);
             }
         });
     });
-    console.log(err);
     if (err.length === 0)
         return next();
-    else
-        return next(err);
+    else {
+        const error = {
+            message: 'Error Occurred',
+            status: 400 ,
+            error: err,
+        };
+        console.log(error);
+        return next(error);
+    }
     } ;
 };

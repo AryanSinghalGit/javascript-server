@@ -11,7 +11,7 @@ export default (module, permissionType) => (req: Request, res: Response, next: N
         const decodedUser = jwt.verify(token, Key);
         if (!decodedUser) {
             return next({
-                staus: 403,
+                status: 403,
                 error: 'Unauthorized Access',
                 message: 'Unauthorized Access'
             });
@@ -19,7 +19,7 @@ export default (module, permissionType) => (req: Request, res: Response, next: N
         const role: string = decodedUser.role;
         if (!hasPermission(module, role, permissionType)) {
             return next({
-                staus: 403,
+                status: 403,
                 error: 'Unauthorized Access',
                 message: 'Unauthorized Access'
             });
@@ -28,7 +28,7 @@ export default (module, permissionType) => (req: Request, res: Response, next: N
     }
     catch (error) {
         return next({
-            staus: 403,
+            status: 403,
             error: 'Unauthorized Access',
             message: error.message
         });

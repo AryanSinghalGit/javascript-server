@@ -71,9 +71,9 @@ const validation = {
             required: true,
             isObject: true,
             errorMessage: 'Data is required',
-            custom: (reqMethod, req, res, next): void => {
+            custom: (reqMethod, req, res, next) => {
                 if (typeof req[reqMethod] !== 'object' ) {
-                    return next({ error: 'Error Occured', message: 'Not an Object'});
+                    return { error: 'Error Occured', message: 'Not an Object'};
                 }
             }
         }

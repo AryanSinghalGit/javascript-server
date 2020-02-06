@@ -12,7 +12,6 @@ class Controller {
     }
     create = (req: Request, res: Response) => {
         console.log('----------Create Trainee----------');
-        console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
         res.send({
             status: 'ok',
             message: 'Trainee added successfully',
@@ -25,6 +24,7 @@ class Controller {
     };
     list = (req: Request, res: Response) => {
         console.log('----------Trainee List----------');
+        console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
         res.send({
             status: 'ok',
             message: 'Trainee List',

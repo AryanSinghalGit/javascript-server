@@ -23,7 +23,6 @@ export class Server {
                 }
                 else {
                     console.log(`Express app Successfully started on port : ${Port} `);
-                    Database.disconnect();
                 }
             });
         })

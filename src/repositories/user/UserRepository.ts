@@ -12,14 +12,15 @@ class UserRepository {
     count = () => {
         return this.userModel.countDocuments();
     }
-    delete = (data) => {
-       // return this.userModel.create(data);
+    delete = (id) => {
+        console.log(id);
+       return this.userModel.findOneAndDelete({_id: id});
     }
-    update = (data) => {
-       // return this.userModel.create(data);
+    update = (id, updatedData) => {
+       return this.userModel.findOneAndUpdate({_id: id}, updatedData);
     }
-    list = (data) => {
-       // return this.userModel.create(data);
+    list = () => {
+       return this.userModel.find({}).exec();
     }
 }
 export default new UserRepository();

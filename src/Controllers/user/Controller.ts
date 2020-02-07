@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, response } from 'express';
 import { UserRepository } from '../../repositories/user';
 class Controller {
     static instance: Controller;
@@ -25,47 +25,50 @@ class Controller {
     list = (req: Request, res: Response) => {
         console.log('----------Trainee List----------');
         console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
+        UserRepository.list().then((dataList) => {
+        console.log(dataList);
         res.send({
             status: 'ok',
             message: 'Trainee List',
-            data: [{
-                id: 241,
-                name: 'Aman',
-                address: 'Ghaziabad'
-            },
-            {
-                id: 242,
-                name: 'Aryan',
-                address: 'Noida'
-            },
-            {
-                id: 243,
-                name: 'Neeraj',
-                address: 'Delhi'
-            }]
+            data: dataList
         }
         );
+    });
     };
     update = (req: Request, res: Response) => {
         console.log('----------Update Trainee----------');
-            res.send({
-            status: 'ok',
-            message: 'Trainee Data successfully Updated',
-            data: {
-                id: 241,
-                name: 'Divyam',
-                address: 'Gurugram'
+        UserRepository.update(req.body.id, req.body.dataToUpdate).then((value) => {
+            if (value) {
+                res.send({
+                    status: 'ok',
+                    message: 'Trainee Data successfully Updated',
+                    data: req.body.dataToUpdate
+                });
+            }
+            else {
+                res.send({
+                    status: 'ok',
+                    message: 'Data does not exist',
+                });
             }
         });
     };
     delete = (req: Request, res: Response) => {
         console.log('----------Delete Trainee----------');
-        res.send(
-            {
-                status: 'ok',
-                message: 'Trainee Data Successfully Deleted'
-            }
-        );
+        UserRepository.delete(req.params.id).then((value) => {
+            if (value)
+                res.send(
+                    {
+                        status: 'ok',
+                        message: 'Trainee Data Successfully Deleted'
+                    });
+            else
+                res.send({
+                    status: 'ok',
+                    message: 'Data does not exist'
+                });
+        });
+
     };
 }
 export default Controller.getInstance();

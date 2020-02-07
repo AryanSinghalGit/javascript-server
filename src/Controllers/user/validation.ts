@@ -40,9 +40,11 @@ const validation = {
             length: 10,
             errorMessage: 'mobile no. is required',
             custom: (reqMethod, req, res, next) => {
-            if ( req[reqMethod].length !== '10' ) {
+            if ( req[reqMethod].mob.length !== 10 ) {
+                console.log('inside mob custom');
                 return true;
             }
+            return false;
         }
         },
         hobbies:
@@ -50,11 +52,13 @@ const validation = {
             required: true,
             array: true,
             in: ['body'],
-            errorMessage: 'email is required',
+            errorMessage: 'hobbies is required',
             custom: (reqMethod, req, res, next) => {
-                if ( Array.isArray(req[reqMethod]) === false ) {
+                if ( Array.isArray(req[reqMethod].hobbies) === false ) {
+                    console.log('inside hobby custom');
                     return true;
                 }
+                return false;
             },
         }
     },

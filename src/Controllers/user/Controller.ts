@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { UserRepository } from '../../repositories/user';
 class Controller {
     static instance: Controller;
     static getInstance = () => {
@@ -12,14 +13,13 @@ class Controller {
     }
     create = (req: Request, res: Response) => {
         console.log('----------Create Trainee----------');
-        res.send({
-            status: 'ok',
-            message: 'Trainee added successfully',
-            data: {
-                id: 241,
-                name: 'Aman',
-                address: 'Ghaziabad'
-            }
+        const { name, address, email, dob, mob, hobbies } = req.body;
+        UserRepository.create({ name, address, email, dob, mob, hobbies }).then((userData) => {
+            res.send({
+                status: 'ok',
+                message: 'Trainee added successfully',
+                data: userData
+            });
         });
     };
     list = (req: Request, res: Response) => {

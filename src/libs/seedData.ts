@@ -1,19 +1,19 @@
 import UserRepository from '../repositories/user/UserRepository';
 
 const user = {
-    name: 'Aryan Singhal',
+    name: 'Vinay Chaudhary',
     address: 'Ghaziabad',
-    email: 'aryan.singhal@successive.tech',
+    email: 'vinay.chaudhary@successive.tech',
     dob: '07/25/1998',
     mob: 7789839178,
-    hobbies: ['watching movies', 'reading books'] ,
+    hobbies: ['watching movies', 'hiking'] ,
 };
 const seedData = () => {
     UserRepository.count().then((count) => {
         if (count === 0)
             UserRepository.create(user).then(() => console.log('Data seeded'));
         else {
-            console.log(`${ count } Data is already present`);
+            console.log(`Data is already seeded`);
         }
     })
     .catch((err) => {

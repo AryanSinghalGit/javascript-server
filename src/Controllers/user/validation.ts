@@ -1,18 +1,61 @@
 const validation = {
-    create: {
-        id: {
-            required: true,
-            string: true,
-            regex: /[\w]+/,
-            in: ['body'],
-            errorMessage: 'Id is required'
-        },
+    create:
+        {
         name:
         {
             required: true,
             regex: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/,
             in: ['body'],
             errorMessage: 'Name is required',
+        },
+        address:
+        {
+            required: true,
+            string: true,
+            regex: /[\w]+/,
+            in: ['body'],
+            errorMessage: 'address is required'
+        },
+        email:
+        {
+            required: true,
+            string: true,
+            regex: /[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/,
+            in: ['body'],
+            errorMessage: 'email is required'
+        },
+        dob:
+        {
+            required: true,
+            date: true,
+            in: ['body'],
+            errorMessage: 'date is required'
+        },
+        mob:
+        {
+            required: true,
+            number: true,
+            regex: /[0-9]+$/,
+            in: ['body'],
+            length: 10,
+            errorMessage: 'mobile no. is required',
+            custom: (reqMethod, req, res, next) => {
+            if ( req[reqMethod].length !== '10' ) {
+                return true;
+            }
+        }
+        },
+        hobbies:
+        {
+            required: true,
+            array: true,
+            in: ['body'],
+            errorMessage: 'email is required',
+            custom: (reqMethod, req, res, next) => {
+                if ( Array.isArray(req[reqMethod]) === false ) {
+                    return true;
+                }
+            },
         }
     },
     delete:

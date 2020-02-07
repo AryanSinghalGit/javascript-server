@@ -74,6 +74,7 @@ export default (config) => {
     if (err.length === 0)
         return next();
     else {
+        console.log(err);
         const error = {
             message: 'Error Occurred',
             status: 400 ,

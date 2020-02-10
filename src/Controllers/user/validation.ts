@@ -16,6 +16,14 @@ const validation = {
             in: ['body'],
             errorMessage: 'address is required'
         },
+        role:
+        {
+            required: true,
+            string: true,
+            regex: /^[a-zA-Z]+/,
+            in: ['body'],
+            errorMessage: 'role is required'
+        },
         email:
         {
             required: true,

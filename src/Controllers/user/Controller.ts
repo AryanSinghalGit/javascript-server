@@ -1,5 +1,6 @@
 import { Request, Response, response } from 'express';
 import { UserRepository } from '../../repositories/user';
+import SystemResponse from '../../libs/SystemResponse';
 class Controller {
     static instance: Controller;
     static getInstance = () => {
@@ -13,13 +14,14 @@ class Controller {
     }
     create = (req: Request, res: Response) => {
         console.log('----------Create Trainee----------');
-        const { name, address, email, dob, mob, hobbies } = req.body;
-        UserRepository.create({ name, address, email, dob, mob, hobbies }).then((userData) => {
-            res.send({
-                status: 'ok',
-                message: 'Trainee added successfully',
-                data: userData
-            });
+        const { name, address, email, dob, mob, hobbies, role } = req.body;
+        UserRepository.create({ name, address, email, dob, mob, hobbies, role }).then((userData) => {
+            const message = 'Trainee added successfully';
+            const data = userData;
+            SystemResponse.success(res, data, message);
+        })
+        .catch((error: any) => {
+            return SystemResponse.failure(res, error, 'User is not create');
         });
     };
     list = (req: Request, res: Response) => {
@@ -27,46 +29,40 @@ class Controller {
         console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
         UserRepository.list().then((dataList) => {
         console.log(dataList);
-        res.send({
-            status: 'ok',
-            message: 'Trainee List',
-            data: dataList
+        if (dataList !== []) {
+            const message = 'Trainee List';
+            const data = dataList;
+            SystemResponse.success(res, data, message);
         }
-        );
+    })
+    .catch((error: any) => {
+        return SystemResponse.failure(res, error, 'User data does not exist');
     });
     };
     update = (req: Request, res: Response) => {
         console.log('----------Update Trainee----------');
         UserRepository.update(req.body.id, req.body.dataToUpdate).then((value) => {
             if (value) {
-                res.send({
-                    status: 'ok',
-                    message: 'Trainee Data successfully Updated',
-                    data: req.body.dataToUpdate
-                });
+                const message = 'Trainee Data successfully Updated';
+                const data = req.body.dataToUpdate;
+                SystemResponse.success(res, data, message);
             }
-            else {
-                res.send({
-                    status: 'ok',
-                    message: 'Data does not exist',
-                });
-            }
+        })
+        .catch((error: any) => {
+            return SystemResponse.failure(res, error, 'User data is not Updated');
         });
     };
     delete = (req: Request, res: Response) => {
         console.log('----------Delete Trainee----------');
         UserRepository.delete(req.params.id).then((value) => {
-            if (value)
-                res.send(
-                    {
-                        status: 'ok',
-                        message: 'Trainee Data Successfully Deleted'
-                    });
-            else
-                res.send({
-                    status: 'ok',
-                    message: 'Data does not exist'
-                });
+            if (value) {
+                const message = 'Trainee Data Successfully Deleted';
+                const data = req.body.dataToUpdate;
+                SystemResponse.success(res, req.params.id, message);
+            }
+        })
+        .catch((error: any) => {
+            return SystemResponse.failure(res, error, 'User data is not deleted');
         });
 
     };

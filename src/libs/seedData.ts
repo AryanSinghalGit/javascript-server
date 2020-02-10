@@ -7,6 +7,7 @@ const user = {
     dob: '07/25/1998',
     mob: 7789839178,
     hobbies: ['watching movies', 'hiking'] ,
+    role: 'Head-Trainer'
 };
 const seedData = () => {
     UserRepository.count().then((count) => {

@@ -22,5 +22,8 @@ class UserRepository {
     list = () => {
        return this.userModel.find({}).exec();
     }
+    findOne = (id) => {
+        return this.userModel.findOne({_id: id}).exec();
+    }
 }
 export default new UserRepository();

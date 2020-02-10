@@ -2,7 +2,14 @@ import * as jwt from 'jsonwebtoken';
 import { default as config } from '../../config/configuration';
 import hasPermission from '../hasPermission';
 import { Request, Response, NextFunction } from 'express';
-export default (module, permissionType) => (req: Request, res: Response, next: NextFunction) => {
+import UserRepository from '../../repositories/user/UserRepository';
+import IUserModel from '../../repositories/user/IUserModel';
+import { Controller } from '../../Controllers/user';
+
+interface IRequest extends Request {
+    user: IUserModel;
+}
+const authMiddleWare = (module, permissionType) => (req: IRequest, res: Response, next: NextFunction) => {
     console.log('------------AUTHMIDDLEWARE------------', module, permissionType);
     try {
         const token: string = req.headers.authorization;
@@ -16,15 +23,22 @@ export default (module, permissionType) => (req: Request, res: Response, next: N
                 message: 'Unauthorized Access'
             });
         }
-        const role: string = decodedUser.role;
-        if (!hasPermission(module, role, permissionType)) {
-            return next({
-                status: 403,
-                error: 'Unauthorized Access',
-                message: 'Unauthorized Access'
-            });
-        }
-        next();
+        console.log(decodedUser);
+        console.log(decodedUser._id);
+        UserRepository.findOne(decodedUser._id).then((userData) => {
+            console.log(userData);
+            req.user = userData;
+            const role: string = userData.role;
+            if (!hasPermission(module, role, permissionType)) {
+                console.log(`${ role } does not permission of ${ permissionType }`);
+                return next({
+                    status: 403,
+                    error: 'Unauthorized Access',
+                    message: 'Unauthorized Access'
+                });
+            }
+            next();
+        });
     }
     catch (error) {
         return next({
@@ -34,3 +48,5 @@ export default (module, permissionType) => (req: Request, res: Response, next: N
         });
     }
 };
+
+export { authMiddleWare };

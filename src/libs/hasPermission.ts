@@ -7,12 +7,14 @@ export default function hasPermission(moduleName: string, role: string, permissi
     let tmp: boolean = false;
     if (data[permissionType] === undefined)
         return false;
-
+    data.all.forEach(element => {
+        if (element === role)
+         tmp = true;
+    });
     data[permissionType].forEach(element => {
         if (element === role) {
             tmp = true;
         }
-
     });
     return tmp;
 }

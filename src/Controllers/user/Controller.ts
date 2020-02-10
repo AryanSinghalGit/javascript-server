@@ -29,11 +29,9 @@ class Controller {
         console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
         UserRepository.list().then((dataList) => {
         console.log(dataList);
-        if (dataList !== []) {
-            const message = 'Trainee List';
-            const data = dataList;
-            SystemResponse.success(res, data, message);
-        }
+        const message = 'Trainee List';
+        const data = dataList;
+        SystemResponse.success(res, data, message);
     })
     .catch((error: any) => {
         return SystemResponse.failure(res, error, 'User data does not exist');

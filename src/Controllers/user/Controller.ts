@@ -64,5 +64,9 @@ class Controller {
         });
 
     };
+    me = (req, res, next) => {
+        console.log('--------------me-------------');
+        SystemResponse.success(res, req.user, 'User data fetched');
+    }
 }
 export default Controller.getInstance();

@@ -4,10 +4,10 @@ import { validationHandler, authMiddleWare } from '../../libs/routes' ;
 import { default as validation } from './validation' ;
 const userRouter: Router = Router();
 userRouter.route('/')
-    .get(validationHandler(validation.get), Controller.list)
-    .post(validationHandler(validation.create), Controller.create)
-    .put(validationHandler(validation.update), Controller.update);
+    .get(authMiddleWare('traineeModule', 'read'), validationHandler(validation.get), Controller.list)
+    .post(authMiddleWare('traineeModule', 'read'), validationHandler(validation.create), Controller.create)
+    .put(authMiddleWare('traineeModule', 'read'), validationHandler(validation.update), Controller.update);
 
 userRouter.route('/:id')
-    .delete(validationHandler(validation.delete), Controller.delete);
+    .delete(authMiddleWare('traineeModule', 'read'), validationHandler(validation.delete), Controller.delete);
 export default userRouter;

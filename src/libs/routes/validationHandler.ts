@@ -30,7 +30,7 @@ export default (config) => {
                 if (!regex.test(keyValue)) {
                     const obj = {
                         location: `${ reqMethod}`,
-                        msg: `${ errorMessage }`,
+                        msg: `${ key } is invalid`,
                         param: `${ key }` ,
                         value: `${keyValue}`
                     };
@@ -47,7 +47,7 @@ export default (config) => {
                 if (!regex.test(keyValue)) {
                     const obj = {
                         location: `${ reqMethod}`,
-                        msg: `${ errorMessage }`,
+                        msg: `${ key } is invalid`,
                         param: `${ key }` ,
                         value: `${keyValue}`
                     };
@@ -74,6 +74,7 @@ export default (config) => {
     if (err.length === 0)
         return next();
     else {
+        console.log(err);
         const error = {
             message: 'Error Occurred',
             status: 400 ,

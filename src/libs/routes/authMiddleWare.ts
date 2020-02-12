@@ -4,8 +4,6 @@ import hasPermission from '../hasPermission';
 import { Request, Response, NextFunction } from 'express';
 import UserRepository from '../../repositories/user/UserRepository';
 import IUserModel from '../../repositories/user/IUserModel';
-import { Controller } from '../../Controllers/user';
-
 interface IRequest extends Request {
     user: IUserModel;
 }
@@ -25,7 +23,8 @@ const authMiddleWare = (module, permissionType) => (req: IRequest, res: Response
         }
         console.log(decodedUser);
         console.log(decodedUser._id);
-        UserRepository.findOne(decodedUser._id).then((userData) => {
+        UserRepository.findOne(decodedUser._id)
+        .then((userData) => {
             console.log(userData);
             req.user = userData;
             const role: string = userData.role;
@@ -38,6 +37,14 @@ const authMiddleWare = (module, permissionType) => (req: IRequest, res: Response
                 });
             }
             next();
+        })
+        .catch((err) => {
+            console.log(err);
+            return next({
+                status: 403,
+                error: 'Unauthorized Access',
+                message: 'Unauthorized Access'
+            });
         });
     }
     catch (error) {

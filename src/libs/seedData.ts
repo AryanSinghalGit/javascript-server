@@ -1,5 +1,4 @@
 import UserRepository from '../repositories/user/UserRepository';
-
 const user = {
     name: 'Vinay Chaudhary',
     address: 'Ghaziabad',
@@ -7,19 +6,22 @@ const user = {
     dob: '07/25/1998',
     mob: 7789839178,
     hobbies: ['watching movies', 'hiking'] ,
-    role: 'head-trainer'
+    role: 'head-trainer',
+    createdAt: Date.now(),
+    createdBy: 'seed data',
 };
 const seedData = () => {
-    UserRepository.count().then((count) => {
+    UserRepository.count()
+    .then((count) => {
         if (count === 0)
-            UserRepository.create(user).then(() => console.log('Data seeded'));
+           return UserRepository.create(user);
         else {
-            console.log(`Data is already seeded`);
+            throw new Error(`Data is already seeded`);
         }
     })
+    .then(() => console.log('Data seeded'))
     .catch((err) => {
         console.log(err);
     });
-
 };
 export default seedData;

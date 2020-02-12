@@ -39,7 +39,8 @@ class Controller {
     };
     update = (req: Request, res: Response) => {
         console.log('----------Update Trainee----------');
-        UserRepository.update(req.body.id, req.body.dataToUpdate).then((value) => {
+        UserRepository.update(req.body.id, req.body.dataToUpdate)
+        .then((value) => {
             if (value) {
                 const message = 'Trainee Data successfully Updated';
                 const data = req.body.dataToUpdate;

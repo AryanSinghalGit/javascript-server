@@ -19,9 +19,7 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
         });
     }
     async delete(req, id) {
-        console.log('>>>>>>>>>', id);
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
-        console.log('oldData Id', oldData._id);
         return this.versionModel.findByIdAndUpdate( oldData._id ,
             {
             deletedAt: Date.now(),
@@ -31,7 +29,6 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
     }
     async update(req, id, updatedData) {
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
-        console.log('oldData Id', oldData._id);
         this.versionModel.create({
             ...updatedData,
             originalId: id,

@@ -54,10 +54,8 @@ class Controller {
     delete = (req, res: Response) => {
         console.log('----------Delete Trainee----------');
         UserRepository.delete(req, req.params.id).then((value) => {
-            console.log(value);
             if (value) {
                 const message = 'Trainee Data Successfully Deleted';
-                console.log(message);
                 SystemResponse.success(res, req.params.id, message);
             }
         })

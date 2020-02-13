@@ -14,7 +14,6 @@ class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IU
         return super.delete(req, id);
     }
     update = (req, id, updatedData) => {
-        console.log('userRepo');
        return super.update(req, id, updatedData);
      }
     count = () => {

@@ -8,23 +8,44 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
     public static generateObjectId = () => {
         return String(mongoose.Types.ObjectId());
     }
-    create = (data) => {
+    public create(creatorId, data) {
         const id = VersionableRepository.generateObjectId();
         return this.versionModel.create({
             ...data,
             _id: id,
-            originalId: id
+            originalId: id,
+            createdBy: creatorId,
+            createdAt: Date.now(),
         });
     }
-    delete = (id) => {
-        console.log(id);
-       return this.versionModel.findOneAndUpdate({_id: id}, { $set: { deletedAt: Date.now()}});
+    async delete(req, id) {
+        console.log('>>>>>>>>>', id);
+        const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
+        console.log('oldData Id', oldData._id);
+        return this.versionModel.findByIdAndUpdate( oldData._id ,
+            {
+            deletedAt: Date.now(),
+            deletedBy: req.user._id
+            }
+        );
     }
-    update = (id, updatedData) => {
-        this.versionModel.update({actualId: id, deletedAt: undefined }, { $set: { deletedAt: Date.now() } } );
-        return this.versionModel.create({
+    async update(req, id, updatedData) {
+        const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
+        console.log('oldData Id', oldData._id);
+        this.versionModel.create({
             ...updatedData,
-            originalId: id
+            originalId: id,
+            updatedAt: Date.now(),
+            updatedBy: req.user._id
         });
-     }
+        return this.versionModel.findByIdAndUpdate( oldData._id ,
+            {
+            deletedAt: Date.now(),
+            deletedBy: req.user._id
+            }
+        );
+    }
+    public list() {
+        return this.versionModel.find({deletedAt: undefined}).exec();
+    }
 }

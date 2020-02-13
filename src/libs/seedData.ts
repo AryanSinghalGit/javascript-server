@@ -6,15 +6,13 @@ const user = {
     dob: '07/25/1998',
     mob: 7789839178,
     hobbies: ['watching movies', 'hiking'] ,
-    role: 'head-trainer',
-    createdAt: Date.now(),
-    createdBy: 'seed data',
+    role: 'head-trainer'
 };
 const seedData = () => {
     UserRepository.count()
     .then((count) => {
         if (count === 0)
-           return UserRepository.create(user);
+           return UserRepository.create(undefined, user);
         else {
             throw new Error(`Data is already seeded`);
         }

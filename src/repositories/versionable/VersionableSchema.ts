@@ -3,11 +3,12 @@ export default class VersionableSchema extends mongoose.Schema {
     constructor(userSchema, options) {
         const versionSchema = {
             originalId: String,
-            createdAt: {type: Date, default: Date.now()} ,
-            UpdatedAt: Date,
+            createdAt: Date,
+            updatedAt: Date,
+            deletedAt: Date,
             createdBy: String,
-            UpdatedBy: String,
-            DeletedBy: String,
+            updatedBy: String,
+            deletedBy: String,
         };
     super({ ...userSchema, ...versionSchema}, options);
     }

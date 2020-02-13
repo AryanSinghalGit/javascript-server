@@ -6,11 +6,22 @@ class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IU
     constructor() {
         super(userModel);
     }
+    create = (creatorId, data) => {
+       return super.create(creatorId, data);
+    }
+    delete = (req, id) => {
+        console.log(id);
+        return super.delete(req, id);
+    }
+    update = (req, id, updatedData) => {
+        console.log('userRepo');
+       return super.update(req, id, updatedData);
+     }
     count = () => {
         return this.versionModel.countDocuments();
     }
     list = () => {
-       return this.versionModel.find({}).exec();
+       return super.list();
     }
     findOne = (id) => {
         return this.versionModel.findOne({_id: id}).exec();

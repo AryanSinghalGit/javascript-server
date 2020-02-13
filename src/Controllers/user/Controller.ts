@@ -12,10 +12,10 @@ class Controller {
             return Controller.instance;
         }
     }
-    create = (req: Request, res: Response) => {
+    create = (req, res: Response) => {
         console.log('----------Create Trainee----------');
         const { name, address, email, dob, mob, hobbies, role } = req.body;
-        UserRepository.create({ name, address, email, dob, mob, hobbies, role }).then((userData) => {
+        UserRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role }).then((userData) => {
             const message = 'Trainee added successfully';
             const data = userData;
             SystemResponse.success(res, data, message);
@@ -37,9 +37,9 @@ class Controller {
         return SystemResponse.failure(res, error, 'User data does not exist');
     });
     };
-    update = (req: Request, res: Response) => {
+    update = (req, res: Response) => {
         console.log('----------Update Trainee----------');
-        UserRepository.update(req.body.id, req.body.dataToUpdate)
+        UserRepository.update(req, req.body.id, req.body.dataToUpdate)
         .then((value) => {
             if (value) {
                 const message = 'Trainee Data successfully Updated';
@@ -51,12 +51,13 @@ class Controller {
             return SystemResponse.failure(res, error, 'User data is not Updated');
         });
     };
-    delete = (req: Request, res: Response) => {
+    delete = (req, res: Response) => {
         console.log('----------Delete Trainee----------');
-        UserRepository.delete(req.params.id).then((value) => {
+        UserRepository.delete(req, req.params.id).then((value) => {
+            console.log(value);
             if (value) {
                 const message = 'Trainee Data Successfully Deleted';
-                const data = req.body.dataToUpdate;
+                console.log(message);
                 SystemResponse.success(res, req.params.id, message);
             }
         })

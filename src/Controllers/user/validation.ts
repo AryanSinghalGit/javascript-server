@@ -132,6 +132,17 @@ const validation = {
                 }
             }
         }
+    },
+    login:
+    {
+        email:
+        {
+            required: true,
+            string: true,
+            regex: /[a-z]([[-]*\w+[.]*){1,63}@successive[.]tech$/,
+            in: ['body'],
+            errorMessage: 'email is required'
+        },
     }
 };
 export default validation ;

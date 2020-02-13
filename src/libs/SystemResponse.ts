@@ -6,8 +6,8 @@ class SystemResponse {
                data
         });
     }
-    static failure = (res, err, message = 'Failure') => {
-        return res.status(200).send({
+    static failure = (res, err, message = 'Failure', status = 400) => {
+        return res.status(status).send({
                status: 'Not ok',
                message,
                err

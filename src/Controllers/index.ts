@@ -1,2 +1,2 @@
-export { traineeRouter, TraineeControllerInstance } from './trainee';
+export { traineeRouter, traineeController } from './trainee';
 export  { default as userRouter } from './user/routes';

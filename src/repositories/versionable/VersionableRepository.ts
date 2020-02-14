@@ -42,7 +42,7 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
             }
         );
     }
-    public list() {
-        return this.versionModel.find({deletedAt: undefined}).exec();
+    public list(userRole, skipRecord, limitRecord, sortBy) {
+        return this.versionModel.find({deletedAt: undefined, role: userRole}).sort(sortBy).skip(Number(skipRecord)).limit(Number(limitRecord));
     }
 }

@@ -90,7 +90,7 @@ class Controller {
             return SystemResponse.failure(res, 'Password is incorrect', 'Password does not match', 422);
         }
         console.log('Password matched');
-        const token = jwt.sign({ email: user.email , _id: user.originalId }, config.Key);
+        const token = jwt.sign({ email: user.email , _id: user.originalId }, config.Key, { expiresIn: 900 });
         return SystemResponse.success(res, token);
         }
         catch (err) {

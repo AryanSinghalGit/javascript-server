@@ -15,56 +15,59 @@ class Controller {
             return Controller.instance;
         }
     }
-    create = (req, res: Response) => {
+    create = async (req, res: Response) => {
         console.log('----------Create Trainee----------');
         const { name, address, email, dob, mob, hobbies, role } = req.body;
-        userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role }).then((userData) => {
+        try {
+            const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role });
             const message = 'Trainee added successfully';
             const data = userData;
             SystemResponse.success(res, data, message);
-        })
-        .catch((error: any) => {
+        }
+        catch (error) {
             return SystemResponse.failure(res, error, 'User is not create');
-        });
+        }
     };
-    list = (req: Request, res: Response) => {
+    list = async (req: Request, res: Response) => {
         console.log('----------Trainee List----------');
         console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
-        userRepository.list().then((dataList) => {
-        console.log(dataList);
-        const message = 'Trainee List';
-        const data = dataList;
-        SystemResponse.success(res, data, message);
-    })
-    .catch((error: any) => {
-        return SystemResponse.failure(res, error, 'User data does not exist');
-    });
+        try {
+            const dataList = await userRepository.list();
+            console.log(dataList);
+            const message = 'Trainee List';
+            const data = dataList;
+            SystemResponse.success(res, data, message);
+        }
+        catch (error) {
+            return SystemResponse.failure(res, error, 'User data does not exist');
+        }
     };
-    update = (req, res: Response) => {
+    update = async (req, res: Response) => {
         console.log('----------Update Trainee----------');
-        userRepository.update(req, req.body.id, req.body.dataToUpdate)
-        .then((value) => {
+        try {
+            const value = await userRepository.update(req, req.body.id, req.body.dataToUpdate);
             if (value) {
                 const message = 'Trainee Data successfully Updated';
                 const data = req.body.dataToUpdate;
                 SystemResponse.success(res, data, message);
             }
-        })
-        .catch((error: any) => {
+        }
+        catch (error) {
             return SystemResponse.failure(res, error, 'User data is not Updated');
-        });
+        }
     };
-    delete = (req, res: Response) => {
+    delete = async(req, res: Response) => {
         console.log('----------Delete Trainee----------');
-        userRepository.delete(req, req.params.id).then((value) => {
+        try {
+            const value = await userRepository.delete(req, req.params.id);
             if (value) {
                 const message = 'Trainee Data Successfully Deleted';
                 SystemResponse.success(res, req.params.id, message);
             }
-        })
-        .catch((error: any) => {
+        }
+        catch (error) {
             return SystemResponse.failure(res, error, 'User data is not deleted');
-        });
+        }
 
     };
     me = (req, res: Response, next: NextFunction) => {

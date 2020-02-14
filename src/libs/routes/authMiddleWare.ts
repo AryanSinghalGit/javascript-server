@@ -22,7 +22,6 @@ const authMiddleWare = (module, permissionType) => (req: IRequest, res: Response
             });
         }
         console.log(decodedUser);
-        console.log(decodedUser._id);
         UserRepository.findOne(decodedUser._id)
         .then((userData) => {
             console.log(userData);
@@ -55,5 +54,4 @@ const authMiddleWare = (module, permissionType) => (req: IRequest, res: Response
         });
     }
 };
-
 export { authMiddleWare };

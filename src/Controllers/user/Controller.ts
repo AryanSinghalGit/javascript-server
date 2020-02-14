@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response, response, NextFunction } from 'express';
-import { UserRepository } from '../../repositories/user';
+import { userRepository } from '../../repositories/user';
 import SystemResponse from '../../libs/SystemResponse';
 import * as jwt from 'jsonwebtoken';
 import config from '../../config/configuration';
@@ -18,7 +18,7 @@ class Controller {
     create = (req, res: Response) => {
         console.log('----------Create Trainee----------');
         const { name, address, email, dob, mob, hobbies, role } = req.body;
-        UserRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role }).then((userData) => {
+        userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role }).then((userData) => {
             const message = 'Trainee added successfully';
             const data = userData;
             SystemResponse.success(res, data, message);
@@ -30,7 +30,7 @@ class Controller {
     list = (req: Request, res: Response) => {
         console.log('----------Trainee List----------');
         console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
-        UserRepository.list().then((dataList) => {
+        userRepository.list().then((dataList) => {
         console.log(dataList);
         const message = 'Trainee List';
         const data = dataList;
@@ -42,7 +42,7 @@ class Controller {
     };
     update = (req, res: Response) => {
         console.log('----------Update Trainee----------');
-        UserRepository.update(req, req.body.id, req.body.dataToUpdate)
+        userRepository.update(req, req.body.id, req.body.dataToUpdate)
         .then((value) => {
             if (value) {
                 const message = 'Trainee Data successfully Updated';
@@ -56,7 +56,7 @@ class Controller {
     };
     delete = (req, res: Response) => {
         console.log('----------Delete Trainee----------');
-        UserRepository.delete(req, req.params.id).then((value) => {
+        userRepository.delete(req, req.params.id).then((value) => {
             if (value) {
                 const message = 'Trainee Data Successfully Deleted';
                 SystemResponse.success(res, req.params.id, message);
@@ -77,8 +77,7 @@ class Controller {
         try {
         const { email, password } = req.body;
         console.log(email, password);
-        const user = await UserRepository.findOne({email});
-        console.log('>>>>>>>>>>>>>>>');
+        const user = await userRepository.findByEmail(email);
         if (!user) {
             return SystemResponse.failure(res, 'User data not found', 'User not found', 404);
         }
@@ -88,7 +87,7 @@ class Controller {
             return SystemResponse.failure(res, 'Password is incorrect', 'Password does not match', 422);
         }
         console.log('Password matched');
-        const token = jwt.sign({ email: user.email , id: user.originalId }, config.Key);
+        const token = jwt.sign({ email: user.email , _id: user.originalId }, config.Key);
         return SystemResponse.success(res, token);
         }
         catch (err) {

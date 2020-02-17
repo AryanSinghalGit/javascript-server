@@ -48,7 +48,6 @@ const validation = {
             length: 10,
             errorMessage: 'mobile no. is required',
             custom: (reqMethod, req, res, next) => {
-                console.log( req[reqMethod].mob);
             if ( req[reqMethod].mob !== undefined ) {
                 if ( req[reqMethod].mob.length !== 10)
                     return true;
@@ -69,6 +68,11 @@ const validation = {
                 }
                 return false;
             },
+        },
+        password:
+        {
+            required: true,
+            in: ['body'],
         }
     },
     delete:
@@ -107,6 +111,18 @@ const validation = {
             custom: (reqMethod, req, res, next): void => {
                 if ( req[reqMethod].limit === undefined ) {
                     req[reqMethod].limit = '10';
+                }
+            }
+        } ,
+        order:
+        {
+            required: false,
+            default: 1,
+            in: ['query'],
+            errorMessage: 'Order is invalid',
+            custom: (reqMethod, req, res, next): void => {
+                if ( req[reqMethod].order === undefined || req[reqMethod].order !== '-1' ) {
+                    req[reqMethod].order = '1';
                 }
             }
         }

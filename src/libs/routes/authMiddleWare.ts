@@ -7,7 +7,7 @@ import IUserModel from '../../repositories/user/IUserModel';
 interface IRequest extends Request {
     user: IUserModel;
 }
-const authMiddleWare = (module, permissionType) => (req: IRequest, res: Response, next: NextFunction) => {
+const authMiddleWare = (module, permissionType) => async (req: IRequest, res: Response, next: NextFunction) => {
     console.log('------------AUTHMIDDLEWARE------------', module, permissionType);
     try {
         const token: string = req.headers.authorization;
@@ -22,29 +22,21 @@ const authMiddleWare = (module, permissionType) => (req: IRequest, res: Response
             });
         }
         console.log(decodedUser);
-        UserRepository.findOne(decodedUser._id)
-        .then((userData) => {
-            console.log(userData);
-            req.user = userData;
-            const role: string = userData.role;
-            if (!hasPermission(module, role, permissionType)) {
-                console.log(`${ role } does not permission of ${ permissionType }`);
-                return next({
-                    status: 403,
-                    error: 'Unauthorized Access',
-                    message: 'Unauthorized Access'
-                });
-            }
-            next();
-        })
-        .catch((err) => {
-            console.log(err);
+        const userData = await UserRepository.findOne(decodedUser._id);
+        console.log(userData);
+        req.user = userData;
+        const role: string = userData.role;
+        if (decodedUser._id === req.body.id && req.method === 'PUT')
+            return next();
+        if (!hasPermission(module, role, permissionType)) {
+            console.log(`${ role } does not permission of ${ permissionType }`);
             return next({
                 status: 403,
                 error: 'Unauthorized Access',
                 message: 'Unauthorized Access'
             });
-        });
+        }
+        next();
     }
     catch (error) {
         return next({

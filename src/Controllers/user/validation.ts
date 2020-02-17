@@ -40,6 +40,11 @@ const validation = {
             in: ['body'],
             errorMessage: 'email is required'
         },
+        password:
+        {
+            required: true,
+            in: ['body'],
+        }
     }
 };
 export default validation ;

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { userRepository } from '../../repositories/user';
 import SystemResponse from '../../libs/SystemResponse';
+import * as bcrypt from 'bcrypt';
 class Controller {
     static instance: Controller;
     static getInstance = () => {
@@ -14,12 +15,14 @@ class Controller {
     }
     create = async (req, res: Response) => {
         console.log('----------Create Trainee----------');
-        const { name, address, email, dob, mob, hobbies, role } = req.body;
+        const { name, address, email, dob, mob, hobbies, role, password} = req.body;
         try {
-            const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role });
+            const hash = await bcrypt.hash(password, 10);
+            const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role, password: hash  });
             const message = 'Trainee added successfully';
-            const data = userData;
-            SystemResponse.success(res, data, message);
+            userData.password = '*****';
+            console.log(userData);
+            SystemResponse.success(res, userData, message);
         }
         catch (error) {
             return SystemResponse.failure(res, error, 'User is not create');
@@ -31,16 +34,16 @@ class Controller {
         try {
             let sortBy;
             if (req.query.sortBy === 'email')
-                sortBy = { email: 1 };
+                sortBy = { email: req.query.order};
             else if (req.query.sortBy === 'name')
-                sortBy = { name: 1 };
+                sortBy = { name: req.query.order};
             else
-                sortBy = {updatedAt: 1};
+                sortBy = {updatedAt: req.query.order};
             const dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy);
             console.log(dataList);
             const count = await userRepository.countTrainee();
             const message = 'Trainee List , No. of trainee:  ' + count ;
-            const data = dataList;
+            const data = {Count: count, ...dataList};
             SystemResponse.success(res, data, message);
         }
         catch (error) {

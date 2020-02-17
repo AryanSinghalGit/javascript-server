@@ -29,7 +29,9 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
     }
     async update(req, id, updatedData) {
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
+        const { name, address, email, dob, mob, hobbies, role, password} = oldData;
         this.versionModel.create({
+             name, address, email, dob, mob, hobbies, role, password,
             ...updatedData,
             originalId: id,
             updatedAt: Date.now(),
@@ -43,6 +45,6 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
         );
     }
     public list(userRole, skipRecord, limitRecord, sortBy) {
-        return this.versionModel.find({deletedAt: undefined, role: userRole}).sort(sortBy).skip(Number(skipRecord)).limit(Number(limitRecord));
+        return this.versionModel.find({deletedAt: undefined, role: userRole}, {password: 0}).sort(sortBy).skip(Number(skipRecord)).limit(Number(limitRecord));
     }
 }

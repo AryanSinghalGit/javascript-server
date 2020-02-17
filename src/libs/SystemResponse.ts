@@ -8,7 +8,7 @@ class SystemResponse {
     }
     static failure = (res, err, message = 'Failure', status = 400) => {
         return res.status(status).send({
-               status: 'Not ok',
+               status: err.status || 'Bad Request',
                message,
                err
         });

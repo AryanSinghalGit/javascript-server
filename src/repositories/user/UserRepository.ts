@@ -29,7 +29,7 @@ class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IU
         return this.versionModel.findOne({originalId: id}).exec();
     }
     findByEmail = (emailId) => {
-        return this.versionModel.findOne({email: emailId});
+        return this.versionModel.findOne({email: emailId, deletedAt: undefined});
     }
 }
 export default new UserRepository();

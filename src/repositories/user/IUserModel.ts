@@ -5,6 +5,7 @@ export default interface IUserModel extends IVersionableDocument {
     address: string ;
     email: string ;
     role: string ;
+    password: string;
     dob: Date ;
     mob: number;
     hobbies: string[] ;

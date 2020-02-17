@@ -11,6 +11,6 @@ userRouter.route('/:id')
         .delete(authMiddleWare('traineeModule', 'read'), validationHandler(validation.delete), Controller.delete);
 userRouter.route('/me')
         .get(authMiddleWare('traineeModule', 'read'), validationHandler(validation.get), Controller.me);
-userRouter.route('/:id')
-    .delete(authMiddleWare('traineeModule', 'read'), validationHandler(validation.delete), Controller.delete);
+userRouter.route('/login')
+    .post(validationHandler(validation.login), Controller.login);
 export default userRouter;

@@ -1,4 +1,3 @@
-import * as mongoose from 'mongoose';
 import { VersionableSchema } from '../versionable';
 class UserSchema extends VersionableSchema {
     constructor(options) {
@@ -8,6 +7,7 @@ class UserSchema extends VersionableSchema {
             address: String ,
             role: String ,
             email: String ,
+            password: String ,
             dob: Date ,
             mob: Number,
             hobbies: [String],

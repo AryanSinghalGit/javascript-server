@@ -1,29 +1,29 @@
 import * as mongoose from 'mongoose';
 import IUserModel from './IUserModel';
 import { userModel } from './UserModel';
-class UserRepository {
-    private userModel: mongoose.Model<IUserModel>;
+import { VersionableRepository } from '../versionable';
+class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
     constructor() {
-        this.userModel = userModel;
+        super(userModel);
     }
-    create = (data) => {
-        return this.userModel.create(data);
+    create = (creatorId, data) => {
+       return super.create(creatorId, data);
     }
-    count = () => {
-        return this.userModel.countDocuments();
-    }
-    delete = (id) => {
+    delete = (req, id) => {
         console.log(id);
-       return this.userModel.findOneAndDelete({_id: id});
+        return super.delete(req, id);
     }
-    update = (id, updatedData) => {
-       return this.userModel.findOneAndUpdate({_id: id}, updatedData);
+    update = (req, id, updatedData) => {
+       return super.update(req, id, updatedData);
+     }
+    count = () => {
+        return this.versionModel.countDocuments();
     }
     list = () => {
-       return this.userModel.find({}).exec();
+       return super.list();
     }
     findOne = (id) => {
-        return this.userModel.findOne({_id: id}).exec();
+        return this.versionModel.findOne({_id: id}).exec();
     }
 }
 export default new UserRepository();

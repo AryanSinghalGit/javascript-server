@@ -18,11 +18,16 @@ class Controller {
         const { name, address, email, dob, mob, hobbies, role, password} = req.body;
         try {
             const hash = await bcrypt.hash(password, 10);
+            const validity = await userRepository.findByEmail(email);
+            if (!validity) {
             const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role, password: hash  });
             const message = 'Trainee added successfully';
             userData.password = '*****';
             console.log(userData);
             SystemResponse.success(res, userData, message);
+            }
+            else
+                return SystemResponse.failure(res, 'User is not create', 'Email id already exist');
         }
         catch (error) {
             return SystemResponse.failure(res, error, 'User is not create');
@@ -33,13 +38,18 @@ class Controller {
         console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
         try {
             let sortBy;
+            let searchBy = {};
             if (req.query.sortBy === 'email')
                 sortBy = { email: req.query.order};
             else if (req.query.sortBy === 'name')
                 sortBy = { name: req.query.order};
             else
                 sortBy = {updatedAt: req.query.order};
-            const dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy);
+            if ( req.query.email !== undefined)
+                searchBy = {...searchBy, email: req.query.email };
+            else if (req.query.name !== undefined)
+                searchBy = {...searchBy, name: req.query.name };
+            const dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, searchBy);
             console.log(dataList);
             const count = await userRepository.countTrainee();
             const message = 'Trainee List , No. of trainee:  ' + count ;
@@ -59,6 +69,8 @@ class Controller {
                 const data = req.body.dataToUpdate;
                 SystemResponse.success(res, data, message);
             }
+            else
+                return SystemResponse.failure(res, 'User data is not Updated', 'Email id already exist');
         }
         catch (error) {
             return SystemResponse.failure(res, error, 'User data is not Updated');

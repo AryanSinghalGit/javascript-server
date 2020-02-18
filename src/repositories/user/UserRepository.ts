@@ -22,8 +22,8 @@ class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IU
     countTrainee = () => {
         return this.versionModel.countDocuments({role: 'trainee', deletedAt: {$exists: false}});
     }
-    list = (userRole, skip, limit, sortBy) => {
-       return super.list(userRole, skip, limit, sortBy);
+    list = (userRole, skip, limit, sortBy, searchBy) => {
+       return super.list(userRole, skip, limit, sortBy, searchBy);
     }
     findOne = (id) => {
         return this.versionModel.findOne({originalId: id}).exec();

@@ -1,8 +1,10 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { notFoundRoute , errorHandler } from './libs/routes';
+import { notFoundRoute, errorHandler } from './libs/routes';
 import { default as mainRouter } from './router';
 import Database from './libs/Database';
+import * as swaggerJsDoc from 'swagger-jsdoc';
+import * as swaggerUI from 'swagger-ui-express';
 export class Server {
     private app: express.Express;
     constructor(protected config) {
@@ -14,22 +16,22 @@ export class Server {
         return this;
     }
     public run = (): Server => {
-        const { app, config: { Port, MongoURL} }: Server = this;
+        const { app, config: { Port, MongoURL } }: Server = this;
         Database.open(MongoURL)
-        .then(() => {
-            app.listen(Port, (err) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    console.log(`Express app Successfully started on port : ${Port} `);
-                }
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-        }
-        );
+            .then(() => {
+                app.listen(Port, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log(`Express app Successfully started on port : ${Port} `);
+                    }
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            }
+            );
         return this;
     }
     public initBodyParser = () => {

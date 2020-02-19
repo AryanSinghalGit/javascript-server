@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import Controller from './Controller';
+import controller from './Controller';
 import { validationHandler, authMiddleWare } from '../../libs/routes' ;
 import { default as validation } from './validation' ;
 const traineeRouter: Router = Router();
 traineeRouter.route('/')
-    .get(authMiddleWare('traineeModule', 'read'), validationHandler(validation.get), Controller.list)
-    .post(authMiddleWare('traineeModule', 'read'), validationHandler(validation.create), Controller.create);
+    .get(authMiddleWare('traineeModule', 'read'), validationHandler(validation.get), controller.list)
+    .post(authMiddleWare('traineeModule', 'write'), validationHandler(validation.create), controller.create)
+    .put(authMiddleWare('traineeModule', 'write'), validationHandler(validation.update), controller.update);
 traineeRouter.route('/:id')
-    .delete(authMiddleWare('traineeModule', 'read'), validationHandler(validation.delete), Controller.delete)
-    .put(authMiddleWare('traineeModule', 'read'), validationHandler(validation.update), Controller.update);
+    .delete(authMiddleWare('traineeModule', 'delete'), validationHandler(validation.delete), controller.delete);
 export default traineeRouter;

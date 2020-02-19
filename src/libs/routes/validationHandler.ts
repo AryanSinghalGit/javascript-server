@@ -5,8 +5,6 @@ export default (config) => {
     console.log(config);
     console.log(req.body);
     const err = [];
-    const params = new Set();
-    const values = new Set();
     Object.keys(config).forEach(key => {
         console.log(`---------${ key }---------`);
         const { errorMessage } = config[key];

@@ -29,20 +29,29 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
     }
     async update(req, id, updatedData) {
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
-        this.versionModel.create({
-            ...updatedData,
-            originalId: id,
-            updatedAt: Date.now(),
-            updatedBy: req.user._id
-        });
-        return this.versionModel.findByIdAndUpdate( oldData._id ,
-            {
-            deletedAt: Date.now(),
-            deletedBy: req.user._id
-            }
-        );
+        const { name, address, email, dob, mob, hobbies, role, password} = oldData;
+        const bool = await this.versionModel.findOne({email: updatedData.email, deletedAt: undefined});
+        if ( updatedData.email !== email && ! bool) {
+            this.versionModel.create({
+                name, address, email, dob, mob, hobbies, role,
+                ...updatedData,
+                password,
+                originalId: id,
+                updatedAt: Date.now(),
+                updatedBy: req.user._id
+            });
+            return this.versionModel.findByIdAndUpdate( oldData._id ,
+                {
+                deletedAt: Date.now(),
+                deletedBy: req.user._id
+                }
+            );
+        }
+        else {
+            return false;
+        }
     }
-    public list() {
-        return this.versionModel.find({deletedAt: undefined}).exec();
+    public list(userRole, skipRecord, limitRecord, sortBy, searchBy) {
+        return this.versionModel.find({deletedAt: undefined, role: userRole, ...searchBy}, {password: 0}).sort(sortBy).skip(Number(skipRecord)).limit(Number(limitRecord));
     }
 }

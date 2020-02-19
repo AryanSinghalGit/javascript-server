@@ -4,7 +4,7 @@ export default class VersionableSchema extends mongoose.Schema {
         const versionSchema = {
             originalId: String,
             createdAt: Date,
-            updatedAt: Date,
+            updatedAt: { type: Date, default: Date.now() },
             deletedAt: Date,
             createdBy: String,
             updatedBy: String,

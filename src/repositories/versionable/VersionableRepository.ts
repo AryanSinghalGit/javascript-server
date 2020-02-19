@@ -30,8 +30,13 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
     async update(req, id, updatedData) {
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
         const { name, address, email, dob, mob, hobbies, role, password} = oldData;
+        if ( updatedData.name !== undefined)
+            updatedData.name = updatedData.name.toLowerCase();
+        if ( updatedData.email !== undefined)
+            updatedData.email = updatedData.email.toLowerCase();
         const bool = await this.versionModel.findOne({email: updatedData.email, deletedAt: undefined});
-        if ( updatedData.email !== email && ! bool) {
+        console.log(updatedData.email, email , bool, updatedData.email !== email);
+        if ( !(updatedData.email !== email && updatedData.email !== undefined && bool !== null)) {
             this.versionModel.create({
                 name, address, email, dob, mob, hobbies, role,
                 ...updatedData,

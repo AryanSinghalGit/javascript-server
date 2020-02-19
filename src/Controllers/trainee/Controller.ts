@@ -15,9 +15,12 @@ class Controller {
     }
     create = async (req, res: Response) => {
         console.log('----------Create Trainee----------');
-        const { name, address, email, dob, mob, hobbies, role, password} = req.body;
+        const { address, dob, mob, hobbies, role, password} = req.body;
+        let  { name, email } = req.body;
         try {
             const hash = await bcrypt.hash(password, 10);
+            email = email.toLowerCase();
+            name = name.toLowerCase();
             const validity = await userRepository.findByEmail(email);
             if (!validity) {
             const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role, password: hash  });
@@ -41,14 +44,16 @@ class Controller {
             let searchBy = {};
             if (req.query.sortBy === 'email')
                 sortBy = { email: req.query.order};
-            else if (req.query.sortBy === 'name')
+            if (req.query.sortBy === 'name')
                 sortBy = { name: req.query.order};
             else
                 sortBy = {updatedAt: req.query.order};
-            if ( req.query.email !== undefined)
-                searchBy = {...searchBy, email: req.query.email };
-            else if (req.query.name !== undefined)
-                searchBy = {...searchBy, name: req.query.name };
+            if ( req.query.email !== undefined) {
+                searchBy = {...searchBy, email: { $regex: req.query.email.toLowerCase() }};
+            }
+            if (req.query.name !== undefined) {
+                searchBy = {...searchBy, name: { $regex: req.query.order.toLowerCase()}};
+            }
             const dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, searchBy);
             console.log(dataList);
             const count = await userRepository.countTrainee();

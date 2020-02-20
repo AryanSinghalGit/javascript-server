@@ -15,23 +15,44 @@ export class Server {
         this.setupRoutes();
         return this;
     }
-    public run = (): Server => {
-        const { app, config: { Port, MongoURL } }: Server = this;
-        Database.open(MongoURL)
-            .then(() => {
-                app.listen(Port, (err) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        console.log(`Express app Successfully started on port : ${Port} `);
-                    }
-                });
-            })
-            .catch((err) => {
-                console.log(err);
+    public initSwagger = () => {
+        const options = {
+            definition: {
+              info: {
+                title: 'Javascript-Server API',
+                version: '1.0.0',
+              },
+            securityDefinitions: {
+              Bearer: {
+                type: 'apiKey',
+                name: 'Authorization',
+                in: 'headers'
+              }
             }
-            );
+            },
+            basePath: '/api',
+            swagger: '2.0',
+            apis: ['./dist/Controllers/**/routes.js'],
+          };
+        const swaggerSpec = swaggerJsDoc(options);
+        return swaggerSpec;
+    }
+    public run = async (): Promise<Server> => {
+        try {
+            const { app, config: { Port, MongoURL } }: Server = this;
+            await Database.open(MongoURL);
+            app.listen(Port, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log(`Express app Successfully started on port : ${Port} `);
+                }
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
         return this;
     }
     public initBodyParser = () => {
@@ -41,6 +62,7 @@ export class Server {
     }
     public setupRoutes = (): void => {
         const { app }: Server = this;
+        this.app.use('/swagger', swaggerUI.serve, swaggerUI.setup(this.initSwagger()));
         app.get('/health-check', (req: express.Request, res: express.Response) => res.send('I am OK'));
         app.use('/api', mainRouter);
         app.use(notFoundRoute);

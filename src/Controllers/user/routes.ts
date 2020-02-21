@@ -17,15 +17,14 @@ const userRouter: Router = Router();
  *              type: string
  *              example: aryan@123
  *      Token:
- *          type: string
+ *          type: object
  *          properties:
  *              status:
  *                  example: Ok
  *              message:
  *                  example: Success
  *              data:
- *                  type:string
- *                  example:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpbmF5LmNoYXVkaGFyeUBzdWNjZXNzaXZlLnRlY2giLCJfaWQiOiI1ZTQ1NDA0Mzk4ZTg2ZDU3NmFkOTY0ZTYiLCJpYXQiOjE1ODIxOTY2MjUsImV4cCI6MTU4MjE5NzUyNX0.sLT3-1NmeyJtS0eDjhO3SUDiVSgaizfX0R7sqPgG040
+ *                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpbmF5LmNoYXVkaGFyeUBzdWNjZXNzaXZlLnRlY2giLCJfaWQiOiI1ZTQ1NDA0Mzk4ZTg2ZDU3NmFkOTY0ZTYiLCJpYXQiOjE1ODIxOTY2MjUsImV4cCI6MTU4MjE5NzUyNX0.sLT3-1NmeyJtS0eDjhO3SUDiVSgaizfX0R7sqPgG040
  */
 
 /**
@@ -71,6 +70,15 @@ userRouter.route('/me')
  *             $ref: '#/definitions/Token'
  *       422:
  *         description: invalid email or password
+ *         schema:
+ *          allOf:
+ *          properties:
+ *              status:
+ *                  example: "Bad Request"
+ *              message:
+ *                  example: Password does not match
+ *              err:
+ *                  example: Password is incorrect
  */
 userRouter.route('/login')
     .post(validationHandler(validation.login), Controller.login);

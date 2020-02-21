@@ -209,8 +209,8 @@ traineeRouter.route('/')
      *                  example: 5e4e6e93c095d84d34045a30
      *              dataToUpdate:
      *                  type: object
-     *                  schema:
-     *                      $ref: '#/definitions/TraineePost'
+     *                  allOf:
+     *                      - $ref: '#/definitions/TraineePost'
      *     responses:
      *       200:
      *         description: user data successfully updated

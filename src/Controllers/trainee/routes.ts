@@ -99,34 +99,33 @@ traineeRouter.route('/')
      *     parameters:
      *       - name: skip
      *         description: elements to be skip
-     *         in: path
+     *         in: query
      *         required: false
      *         type: number
      *       - name: limit
      *         description: number of elements to be shown
-     *         in: path
+     *         in: query
      *         required: false
      *         type: number
      *       - name: sortBy
      *         description: elements to be sort by
-     *         in: path
+     *         in: query
      *         required: false
      *         type: string
-     *       - name: searchBy
-     *         description: elements to be skip
-     *         in: path
+     *       - name: search
+     *         description: element to be search
+     *         in: query
      *         required: false
      *         type: string
      *       - name: order
-     *         description: elements to be skip
-     *         in: path
+     *         description: order for sorting 1 or -1
+     *         in: query
      *         required: false
      *         type: number
      *     responses:
      *       200:
      *         description: Trainee List
      *         schema:
-     *              allOf:
      *              properties:
      *                  status:
      *                      example: Ok

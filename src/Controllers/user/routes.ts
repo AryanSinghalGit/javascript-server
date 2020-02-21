@@ -71,7 +71,7 @@ userRouter.route('/me')
  *       422:
  *         description: invalid email or password
  *         schema:
- *          allOf:
+ *          oneOf:
  *          properties:
  *              status:
  *                  example: "Bad Request"

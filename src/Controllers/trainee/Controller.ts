@@ -41,20 +41,22 @@ class Controller {
         console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
         try {
             let sortBy;
-            let searchBy = {};
+            let dataList;
             if (req.query.sortBy === 'email')
                 sortBy = { email: req.query.order};
             if (req.query.sortBy === 'name')
                 sortBy = { name: req.query.order};
             else
                 sortBy = {updatedAt: req.query.order};
-            if ( req.query.email !== undefined) {
-                searchBy = {...searchBy, email: { $regex: req.query.email.toLowerCase() }};
+            if (req.query.search !== undefined) {
+                dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, {name: { $regex: req.query.search.toLowerCase()}});
+                const List = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, {email: { $regex: req.query.search.toLowerCase()}});
+                dataList = {...dataList, ...List };
             }
-            if (req.query.name !== undefined) {
-                searchBy = {...searchBy, name: { $regex: req.query.order.toLowerCase()}};
+            else {
+                dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, {});
             }
-            const dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, searchBy);
+
             console.log(dataList);
             const count = await userRepository.countTrainee();
             const message = 'Trainee List , No. of trainee:  ' + count ;

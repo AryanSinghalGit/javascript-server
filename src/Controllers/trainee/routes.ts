@@ -3,39 +3,6 @@ import controller from './Controller';
 import { validationHandler, authMiddleWare } from '../../libs/routes';
 import { default as validation } from './validation';
 const traineeRouter: Router = Router();
-traineeRouter.route('/')
-    /**
-     * @swagger
-     *
-     * /api/trainee:
-     *   get:
-     *     description: Returns the list of the trainees
-     *     security:
-     *       - Bearer: []
-     *     consumes:
-     *       - application/json
-     *     produces:
-     *       - application/json
-     *     responses:
-     *       200:
-     *         description: Trainee List
-     *         schema:
-     *              allOf:
-     *              properties:
-     *                  status:
-     *                      example: Ok
-     *                  message:
-     *                      example: 'Trainee List , No. of trainee:  2'
-     *                  count:
-     *                      example: 2
-     *                  data:
-     *                      type: object
-     *                      allOf:
-     *                              - $ref: '#/definitions/TraineeResponse'
-     *       403:
-     *         description: unauthorised access
-     */
-    .get(authMiddleWare('traineeModule', 'read'), validationHandler(validation.get), controller.list)
     /**
      * @swagger
      *
@@ -102,12 +69,81 @@ traineeRouter.route('/')
      *              example: 2020-02-20T11:33:39.325Z
      *          v:
      *              example:0
+     *      Unauthorized:
+     *        type: object
+     *        properties:
+     *          error:
+     *              example: Unauthorized
+     *          message:
+     *              example: Token not found
+     *          status:
+     *              example: 403
+     *          timestamp:
+     *              example: 2019-03-10T19:51:37.066Z
      *
      */
 
-
-
-
+traineeRouter.route('/')
+    /**
+     * @swagger
+     *
+     * /api/trainee:
+     *   get:
+     *     description: Returns the list of the trainees
+     *     security:
+     *       - Bearer: []
+     *     consumes:
+     *       - application/json
+     *     produces:
+     *       - application/json
+     *     parameters:
+     *       - name: skip
+     *         description: elements to be skip
+     *         in: path
+     *         required: false
+     *         type: number
+     *       - name: limit
+     *         description: number of elements to be shown
+     *         in: path
+     *         required: false
+     *         type: number
+     *       - name: sortBy
+     *         description: elements to be sort by
+     *         in: path
+     *         required: false
+     *         type: string
+     *       - name: searchBy
+     *         description: elements to be skip
+     *         in: path
+     *         required: false
+     *         type: string
+     *       - name: order
+     *         description: elements to be skip
+     *         in: path
+     *         required: false
+     *         type: number
+     *     responses:
+     *       200:
+     *         description: Trainee List
+     *         schema:
+     *              allOf:
+     *              properties:
+     *                  status:
+     *                      example: Ok
+     *                  message:
+     *                      example: 'Trainee List , No. of trainee:  2'
+     *                  count:
+     *                      example: 2
+     *                  data:
+     *                      type: object
+     *                      allOf:
+     *                              - $ref: '#/definitions/TraineeResponse'
+     *       403:
+     *         description: unauthorised access
+     *         schema:
+     *              $ref: '#/definitions/Unauthorized'
+     */
+    .get(authMiddleWare('traineeModule', 'read'), validationHandler(validation.get), controller.list)
     /**
      * @swagger
      *
@@ -146,6 +182,8 @@ traineeRouter.route('/')
      *                                  example: "*****"
      *       403:
      *         description: unauthorised access
+     *         schema:
+     *              $ref: '#/definitions/Unauthorized'
      */
     .post(authMiddleWare('traineeModule', 'write'), validationHandler(validation.create), controller.create)
 
@@ -159,22 +197,39 @@ traineeRouter.route('/')
      *          - Bearer: []
      *     produces:
      *       - application/json
-     *     schema:
-     *      allOf:
+     *     parameters:
+     *       - name: User
+     *         description: User's Data.
+     *         in: body
+     *         required: true
+     *         type: object
+     *         schema:
+     *          allOf:
      *          properties:
-     *              allOf:
      *              id:
-     *                  type: string
      *                  example: 5e4e6e93c095d84d34045a30
      *              dataToUpdate:
      *                  type: object
-     *                  allOf:
+     *                  schema:
      *                      $ref: '#/definitions/TraineePost'
      *     responses:
      *       200:
      *         description: user data successfully updated
+     *         schema:
+     *              allOf:
+     *              properties:
+     *                  status:
+     *                      example: Ok
+     *                  message:
+     *                      example: User data successfully Updated
+     *                  data:
+     *                      type: object
+     *                      allOf:
+     *                          - $ref: '#/definitions/TraineeResponse'
      *       403:
      *         description: unauthorised access
+     *         schema:
+     *              $ref: '#/definitions/Unauthorized'
      */
     .put(authMiddleWare('traineeModule', 'write'), validationHandler(validation.update), controller.update);
 /**
@@ -193,11 +248,23 @@ traineeRouter.route('/')
  *         in: path
  *         required: true
  *         type: string
+ *         example: 5e4e6e93c095d84d34045a30
  *     responses:
  *       200:
- *         description: login
+ *         description: Data deleted
+ *         schema:
+ *              allOf:
+ *              properties:
+ *                  status:
+ *                      example: Ok
+ *                  message:
+ *                      example: User data successfully deleted
+ *                  data:
+ *                      example: 5e4e6e93c095d84d34045a30
  *       403:
  *         description: unauthorised access
+ *         schema:
+ *              $ref: '#/definitions/Unauthorized'
  */
 traineeRouter.route('/:id')
     .delete(authMiddleWare('traineeModule', 'delete'), validationHandler(validation.delete), controller.delete);

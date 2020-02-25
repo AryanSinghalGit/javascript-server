@@ -165,7 +165,7 @@ traineeRouter.route('/')
      *       200:
      *         description: User created successfully
      *         schema:
-     *              allOf:
+     *              oneOf:
      *              properties:
      *                  status:
      *                      example: Ok
@@ -203,7 +203,7 @@ traineeRouter.route('/')
      *         required: true
      *         type: object
      *         schema:
-     *          allOf:
+     *          oneOf:
      *          properties:
      *              id:
      *                  example: 5e4e6e93c095d84d34045a30
@@ -215,7 +215,7 @@ traineeRouter.route('/')
      *       200:
      *         description: user data successfully updated
      *         schema:
-     *              allOf:
+     *              oneOf:
      *              properties:
      *                  status:
      *                      example: Ok

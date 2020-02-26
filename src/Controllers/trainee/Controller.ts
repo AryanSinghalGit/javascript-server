@@ -15,9 +15,12 @@ class Controller {
     }
     create = async (req, res: Response) => {
         console.log('----------Create Trainee----------');
-        const { name, address, email, dob, mob, hobbies, role, password} = req.body;
+        const { address, dob, mob, hobbies, role, password} = req.body;
+        let  { name, email } = req.body;
         try {
             const hash = await bcrypt.hash(password, 10);
+            email = email.toLowerCase();
+            name = name.toLowerCase();
             const validity = await userRepository.findByEmail(email);
             if (!validity) {
             const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role, password: hash  });
@@ -38,18 +41,22 @@ class Controller {
         console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
         try {
             let sortBy;
-            let searchBy = {};
+            let dataList;
             if (req.query.sortBy === 'email')
                 sortBy = { email: req.query.order};
-            else if (req.query.sortBy === 'name')
+            if (req.query.sortBy === 'name')
                 sortBy = { name: req.query.order};
             else
                 sortBy = {updatedAt: req.query.order};
-            if ( req.query.email !== undefined)
-                searchBy = {...searchBy, email: req.query.email };
-            else if (req.query.name !== undefined)
-                searchBy = {...searchBy, name: req.query.name };
-            const dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, searchBy);
+            if (req.query.search !== undefined) {
+                dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, {name: { $regex: req.query.search.toLowerCase()}});
+                const List = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, {email: { $regex: req.query.search.toLowerCase()}});
+                dataList = {...dataList, ...List };
+            }
+            else {
+                dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sortBy, {});
+            }
+
             console.log(dataList);
             const count = await userRepository.countTrainee();
             const message = 'Trainee List , No. of trainee:  ' + count ;

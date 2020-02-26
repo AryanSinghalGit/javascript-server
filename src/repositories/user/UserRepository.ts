@@ -31,5 +31,8 @@ class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IU
     findByEmail = (emailId) => {
         return this.versionModel.findOne({email: emailId, deletedAt: undefined});
     }
+    // createIndexes = (searchBy: string, search: string): IUserModel => {
+    //     return this.versionModel.createIndexes({ name : 'text', email: 'text' );
+    // }
 }
 export default new UserRepository();

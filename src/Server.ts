@@ -28,9 +28,9 @@ export class Server {
                 name: 'Authorization',
                 in: 'headers'
               }
-            }
             },
             basePath: '/api',
+            },
             swagger: '2.0',
             apis: ['./dist/Controllers/**/routes.js'],
           };

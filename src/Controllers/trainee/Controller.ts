@@ -29,7 +29,7 @@ class TraineeController {
       if (validity) {
         throw {
           msg: 'Email id already exist',
-        }
+        };
       }
       const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role, password: hash });
       const message = 'Trainee added successfully';
@@ -65,7 +65,7 @@ class TraineeController {
   update = async (req, res: Response) => {
     console.log('----------Update Trainee----------');
     try {
-      const value = await userRepository.update(req, req.body.id, req.body.dataToUpdate);
+      const value = await userRepository.update(req.user._id, req.body.id, req.body.dataToUpdate);
       if (value) {
         const message = 'Trainee Data successfully Updated';
         const data = req.body.dataToUpdate;
@@ -82,7 +82,7 @@ class TraineeController {
   delete = async (req, res: Response) => {
     console.log('----------Delete Trainee----------');
     try {
-      const value = await userRepository.delete(req, req.params.id);
+      const value = await userRepository.delete(req.user._id, req.params.id);
       if (value) {
         const message = 'Trainee Data Successfully Deleted';
         SystemResponse.success(res, req.params.id, message);

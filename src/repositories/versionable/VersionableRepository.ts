@@ -19,20 +19,18 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
             createdAt: Date.now(),
         });
     }
-    async delete(req, id) {
+    async delete(userId, id) {
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
         return this.versionModel.findByIdAndUpdate( oldData._id ,
             {
             deletedAt: Date.now(),
-            deletedBy: req.user._id
+            deletedBy: userId
             }
         );
     }
-    async update(req, id, updatedData) {
+    async update(userId, id, updatedData) {
         const oldData: any = await this.versionModel.findOne({originalId: id , deletedAt: undefined}).exec();
         const { name, address, email, dob, mob, hobbies, role, password} = oldData;
-        if ( updatedData.name !== undefined)
-            updatedData.name = updatedData.name.toLowerCase();
         if ( updatedData.email !== undefined)
             updatedData.email = updatedData.email.toLowerCase();
         const bool = await this.versionModel.findOne({email: updatedData.email, deletedAt: undefined});
@@ -44,12 +42,12 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
                 password,
                 originalId: id,
                 updatedAt: Date.now(),
-                updatedBy: req.user._id
+                updatedBy: userId,
             });
             return this.versionModel.findByIdAndUpdate( oldData._id ,
                 {
                 deletedAt: Date.now(),
-                deletedBy: req.user._id
+                deletedBy: userId,
                 }
             );
         }

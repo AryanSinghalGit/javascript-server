@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { IVersionableDocument, VersionableRepository } from '.';
+
 export default class VersionRepository< D extends mongoose.Document, M extends mongoose.Model<D> > {
     protected versionModel: M ;
     constructor(versionModel) {
@@ -56,7 +57,7 @@ export default class VersionRepository< D extends mongoose.Document, M extends m
             return false;
         }
     }
-    public list(userRole, skipRecord, limitRecord, sortBy, searchBy) {
-        return this.versionModel.find({deletedAt: undefined, role: userRole, ...searchBy}, {password: 0}).sort(sortBy).skip(Number(skipRecord)).limit(Number(limitRecord));
+    public list(userRole, skipRecord, limitRecord, sort, searchBy) {
+        return this.versionModel.find({deletedAt: undefined, role: userRole, ...searchBy}, {password: 0}).sort(sort).skip(Number(skipRecord)).limit(Number(limitRecord));
     }
 }

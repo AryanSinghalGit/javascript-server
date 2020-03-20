@@ -1,10 +1,11 @@
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import { notFoundRoute, errorHandler } from './libs/routes';
 import { default as mainRouter } from './router';
-import Database from './libs/Database';
+import * as bodyParser from 'body-parser';
 import * as swaggerJsDoc from 'swagger-jsdoc';
 import * as swaggerUI from 'swagger-ui-express';
+import { notFoundRoute, errorHandler } from './libs/routes';
+import Database from './libs/Database';
+import { options } from './libs/constant';
 
 export class Server {
   private app: express.Express;
@@ -19,24 +20,6 @@ export class Server {
   }
 
   public initSwagger = () => {
-    const options = {
-      definition: {
-        info: {
-          title: 'Javascript-Server API',
-          version: '1.0.0',
-        },
-        securityDefinitions: {
-          Bearer: {
-            type: 'apiKey',
-            name: 'Authorization',
-            in: 'headers'
-          }
-        },
-        basePath: '/api',
-      },
-      swagger: '2.0',
-      apis: ['./dist/Controllers/**/routes.js'],
-    };
     const swaggerSpec = swaggerJsDoc(options);
     return swaggerSpec;
   }

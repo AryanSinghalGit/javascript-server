@@ -28,7 +28,7 @@ class TraineeController {
       const validity = await userRepository.findOne({ email });
       if (validity) {
         throw {
-          msg: 'Email id already exist',
+          message: 'Email id already exist',
         };
       }
       const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role, password: hash });
@@ -38,7 +38,7 @@ class TraineeController {
       SystemResponse.success(res, userData, message);
     }
     catch (error) {
-      return SystemResponse.failure(res, error, error.msg || 'User is not created');
+      return SystemResponse.failure(res, error, error.message || 'User is not created');
     }
   };
 
@@ -67,17 +67,16 @@ class TraineeController {
   update = async (req, res: Response) => {
     console.log('----------Update Trainee----------');
     try {
-      const value = await userRepository.update(req.user._id, req.body.id, req.body.dataToUpdate);
-      if (value) {
-        const message = 'Trainee Data successfully Updated';
-        const data = req.body.dataToUpdate;
-        SystemResponse.success(res, data, message);
+      const updatedData = await userRepository.update(req.user._id, req.body.id, req.body.dataToUpdate);
+      if (!updatedData) {
+        throw { message: 'Operation Failed' };
       }
-      else
-        return SystemResponse.failure(res, 'User data is not Updated', 'Email id already exist');
+      const message = 'Trainee Data successfully Updated';
+      updatedData.password = undefined;
+      SystemResponse.success(res, updatedData, message);
     }
     catch (error) {
-      return SystemResponse.failure(res, error, 'User data is not Updated');
+      return SystemResponse.failure(res, error.message, 'User data is not Updated');
     }
   };
 
@@ -85,13 +84,14 @@ class TraineeController {
     console.log('----------Delete Trainee----------');
     try {
       const value = await userRepository.delete(req.user._id, req.params.id);
-      if (value) {
-        const message = 'Trainee Data Successfully Deleted';
-        SystemResponse.success(res, req.params.id, message);
+      if (!value) {
+        throw { message: 'Operation Failed' };
       }
+      const message = 'Trainee Data Successfully Deleted';
+      SystemResponse.success(res, req.params.id, message);
     }
     catch (error) {
-      return SystemResponse.failure(res, error, 'User data is not deleted');
+      return SystemResponse.failure(res, error.message , 'User data is not deleted');
     }
   };
 }

@@ -24,7 +24,7 @@ const authMiddleWare = (module, permissionType) => async (req: IRequest, res: Re
             });
         }
         console.log(decodedUser);
-        const userData = await UserRepository.findOne(decodedUser._id);
+        const userData = await UserRepository.findOne({originalId: decodedUser._id});
         console.log(userData);
         req.user = userData;
         const role: string = userData.role;

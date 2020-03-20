@@ -1,4 +1,5 @@
 import { Ipermission } from './interface';
+
 const permissions: Ipermission = {
     'getUsers': {
         all: ['head-trainer'],
@@ -19,4 +20,5 @@ const permissions: Ipermission = {
         delete: ['admin'],
     }
 };
+
 export { permissions };

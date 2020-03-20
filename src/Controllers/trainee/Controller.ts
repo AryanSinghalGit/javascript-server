@@ -25,7 +25,7 @@ class TraineeController {
       const hash = await bcrypt.hash(password, 10);
       email = email.toLowerCase();
       name = name;
-      const validity = await userRepository.findByEmail(email);
+      const validity = await userRepository.findOne({ email });
       if (validity) {
         throw {
           msg: 'Email id already exist',
@@ -33,7 +33,7 @@ class TraineeController {
       }
       const userData = await userRepository.create(req.user._id, { name, address, email, dob, mob, hobbies, role, password: hash });
       const message = 'Trainee added successfully';
-      userData.password = '*****';
+      userData.password = undefined;
       console.log(userData);
       SystemResponse.success(res, userData, message);
     }
@@ -45,14 +45,16 @@ class TraineeController {
   list = async (req: Request, res: Response) => {
     console.log('----------Trainee List----------');
     console.log(`req.query.skip = ${req.query.skip},req.query.limit = ${req.query.limit}`);
-    const { order, sortBy, search } = req.query;
+    const { order, sortBy, search, skip, limit } = req.query;
     try {
       const sort = sortQuery(sortBy, order);
       const searchBy = searchQuery(search);
+      const options = { skip, limit, userRole: 'trainee' };
+      const projection = { password: 0 };
       let dataList;
-      dataList = await userRepository.list('trainee', req.query.skip, req.query.limit, sort, searchBy);
+      dataList = await userRepository.list({ sort, searchBy }, projection, options);
       console.log(dataList);
-      const count = await userRepository.countTrainee();
+      const count = await userRepository.count({ role: 'trainee' });
       const message = 'Trainee List , No. of trainee:  ' + count;
       const data = { Count: count, ...dataList };
       SystemResponse.success(res, data, message);

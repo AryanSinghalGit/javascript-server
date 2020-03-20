@@ -21,25 +21,18 @@ class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IU
     return super.update(userId, id, updatedData);
   }
 
-  count = () => {
-    return this.versionModel.countDocuments();
+  count = (query = {}) => {
+    return this.versionModel.countDocuments({ ...query, deletedAt: { $exists: false } });
   }
 
-  countTrainee = () => {
-    return this.versionModel.countDocuments({ role: 'trainee', deletedAt: { $exists: false } });
+  list = (query, projection, options) => {
+    return super.list(query, projection, options);
   }
 
-  list = (userRole, skip, limit, sort, searchBy) => {
-    return super.list(userRole, skip, limit, sort, searchBy);
+  findOne = (item) => {
+    return this.versionModel.findOne({ ...item, deletedAt: undefined });
   }
 
-  findOne = (id) => {
-    return this.versionModel.findOne({ originalId: id }).exec();
-  }
-
-  findByEmail = (emailId) => {
-    return this.versionModel.findOne({ email: emailId, deletedAt: undefined });
-  }
 }
 
 export default new UserRepository();

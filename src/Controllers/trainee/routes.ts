@@ -2,6 +2,7 @@ import { Router } from 'express';
 import controller from './Controller';
 import { validationHandler, authMiddleWare } from '../../libs/routes';
 import { default as validation } from './validation';
+
 const traineeRouter: Router = Router();
     /**
      * @swagger
@@ -143,6 +144,7 @@ traineeRouter.route('/')
      *              $ref: '#/definitions/Unauthorized'
      */
     .get(authMiddleWare('traineeModule', 'read'), validationHandler(validation.get), controller.list)
+
     /**
      * @swagger
      *
@@ -175,10 +177,6 @@ traineeRouter.route('/')
      *                      type: object
      *                      allOf:
      *                          - $ref: '#/definitions/TraineeResponse'
-     *                      properties:
-     *                              password:
-     *                                  type: string
-     *                                  example: "*****"
      *       403:
      *         description: unauthorised access
      *         schema:
@@ -225,12 +223,20 @@ traineeRouter.route('/')
      *                      type: object
      *                      allOf:
      *                          - $ref: '#/definitions/TraineeResponse'
+     *                      properties:
+     *                        updatedAt:
+     *                          type: string
+     *                          example: "2020-02-21T11:40:19.325Z"
+     *                        updatedBy:
+     *                          type: string
+     *                          example: 5e45404398e86d576ad964e6
      *       403:
      *         description: unauthorised access
      *         schema:
      *              $ref: '#/definitions/Unauthorized'
      */
     .put(authMiddleWare('traineeModule', 'write'), validationHandler(validation.update), controller.update);
+
 /**
  * @swagger
  *
@@ -252,7 +258,7 @@ traineeRouter.route('/')
  *       200:
  *         description: Data deleted
  *         schema:
- *              allOf:
+ *              oneOf:
  *              properties:
  *                  status:
  *                      example: Ok
@@ -267,4 +273,5 @@ traineeRouter.route('/')
  */
 traineeRouter.route('/:id')
     .delete(authMiddleWare('traineeModule', 'delete'), validationHandler(validation.delete), controller.delete);
+
 export default traineeRouter;

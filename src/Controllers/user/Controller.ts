@@ -7,6 +7,7 @@ import config from '../../config/configuration';
 
 class Controller {
   static instance: Controller;
+
   static getInstance = () => {
     if (Controller.instance) {
       return Controller.instance;
@@ -16,22 +17,24 @@ class Controller {
       return Controller.instance;
     }
   }
+
   me = (req, res: Response) => {
     console.log('--------------me-------------');
     try {
-      delete req.user.password;
+      req.user.password = undefined;
       SystemResponse.success(res, req.user, 'User data fetched');
     }
     catch (err) {
       SystemResponse.failure(res, err.message);
     }
   }
+
   login = async (req, res: Response) => {
     console.log('--------------Login-------------');
     try {
       const { email, password } = req.body;
       console.log(email, password);
-      const user = await userRepository.findByEmail(email);
+      const user = await userRepository.findOne({email});
       if (!user) {
         return SystemResponse.failure(res, 'User data not found', 'User not found', 404);
       }

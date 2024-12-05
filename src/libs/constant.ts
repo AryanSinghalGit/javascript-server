@@ -1,4 +1,5 @@
 import { Ipermission } from './interface';
+
 const permissions: Ipermission = {
     'getUsers': {
         all: ['head-trainer'],
@@ -19,4 +20,24 @@ const permissions: Ipermission = {
         delete: ['admin'],
     }
 };
-export { permissions };
+
+const options = {
+  definition: {
+    info: {
+      title: 'Javascript-Server API',
+      version: '1.0.0',
+    },
+    securityDefinitions: {
+      Bearer: {
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'headers'
+      }
+    },
+    basePath: '/api',
+  },
+  swagger: '2.0',
+  apis: ['./dist/Controllers/**/routes.js'],
+};
+
+export { permissions, options };

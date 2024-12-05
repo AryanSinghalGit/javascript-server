@@ -12,4 +12,5 @@ const permissions={
         delete: ['admin'],
     }
     };
-export {permissions};    
+
+export {permissions};
